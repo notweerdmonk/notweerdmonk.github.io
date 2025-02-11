@@ -8,9 +8,9 @@ asm: asm.s
 	ld -m elf_i386 --omagic --strip-all -o $@ $@.o
 
 define make_tiny =
-	@section_hdr_tbl_offset="$(od -A n -j 56 -N 1 -t u1 asm | tr -d ' ')"
-	@section_hdr_tbl_size="$(od -A n -j 68 -N 1 -t u1 asm | tr -d ' ')"
-	@total_bytes="$((${section_hdr_tbl_offset} + ${section_hdr_tbl_size}))"
+	@segment_offset="$(od -A n -j 56 -N 1 -t u1 asm | tr -d ' ')"
+	@segment_size="$(od -A n -j 68 -N 1 -t u1 asm | tr -d ' ')"
+	@total_bytes="$((${segment_offset} + ${segment_size}))"
 	@echo Extracting "${total_bytes}" bytes from ELF file
 	@dd bs=1 count=${total_bytes} if=asm of=asm.tiny 2>/dev/null
 	@chmod +x asm.tiny
