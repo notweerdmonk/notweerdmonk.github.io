@@ -3,5 +3,8 @@ plugins:
 relative_links:
   enabled: true
   collections: true
+collections:
+  items:
+    output: true
 include:
   - README.md
