@@ -4,7 +4,7 @@ Dave Plummer posted on twitter asking out for tips to compact a computer program
 
 This is the original assembly code:
 
-```asm
+```assembly
 # asm.s
 .global _start
 .text
@@ -29,7 +29,7 @@ message:
 
 We can assemble this source with `gcc` driver and link the object file with `ld`. We shall choose 32-bit architecture. While linking, we shall use the `--omagic` option for `ld`. The OMAGIC format shall be chosen which uses the least amount of space. In terms of layout of the ELF file, this option will avoid page-alignment of the data segment saving extra padding. There is a downside that the text and data sections will be marked writable in addition to readable. Symbol data can be omitted with the `--strip-all` option for `ld`.
 
-```bash
+```
 $ gcc -m32 -c -o asm.o asm.s
 $ ld -m elf_i386 --omagic --strip-all -o asm asm.o
 $
@@ -69,7 +69,7 @@ The ELF is quite small, about 312 bytes. It can be made smaller because there ar
 
 Let us delve into the structure of an ELF file. The ELF header for 32-bit architecture is 52 bytes long, each program header entry in the program header table is 32 bytes long and each section header in the section header table is 40 bytes long. The ELF header contains architecture information, entry point in the program and information about next parts. Program headers contain information pertaining to the portions of ELF that are either loaded into the memory or provide information about how the execution process image is organized in the memory. These are called segments. Segments contain one or more sections. Each of the sections is described by an entry in the section header table. Now don't confuse between the memory segments in the address space of execution process namely `.text`, `.data`, `.bss`, `.rodata` et al. and the segments in the ELF file. We will be definitely needing the ELF header and program header table for the ELF to be able to execute but we do not need the section header table.
 
-```bash
+```
 readelf -egt asm
 ELF Header:
   Magic:   7f 45 4c 46 01 01 01 00 00 00 00 00 00 00 00 00
@@ -122,7 +122,7 @@ Program Headers:
 
 Inspecting the ELF we find that there is one program header entry corresponding to a single segment containing both the `.text` and `.data` sections. At an offset of 28 (0x1C) into the ELF header there is a four byte field that points to the start of the program header table in the file. This value will be 0x00000034 for 32-bit architecture. At an offset of 4 into a program header entry there is a four byte field that stores the offset of the correspoding segment in the file. This field will be at an offset of 56 (0x38) from the beginning of the file. This value is 0x00000054 for our ELF. The size of the segment in the file is stored in a four byte field at an offset of 16 (0x10) into a program header entry, and at an offset of 68 (0x44) from the beginning of the file. This value is 42 (0x0000002a) for our ELF. Therefore we need a total of 126 bytes from the beginning of the file. 
 
-```bash
+```
 $ dd bs=1 count=126 if=asm of=asm.tiny
 $
 $ xxd asm.tiny
