@@ -10,21 +10,21 @@ This is the original assembly code:
 .text
 
 _start:
-	  # write(1, message, 13)
-	  movl		$4, %eax				# sys_write
-	  movl		$1, %ebx				# stdout
-	  movl  	$message, %ecx	# message
-	  movl  	$13, %edx       # length
-	  movl  	$0x80          # syscall
+    # write(1, message, 13)
+    movl    $4, %eax        # sys_write
+    movl    $1, %ebx        # stdout
+    movl    $message, %ecx  # message
+    movl    $13, %edx       # length
+    movl    $0x80          # syscall
 
-		# exit(0)
-		movl    $1, %eax        # sys_exit
-		xorl    %ebx, %ebx      # status 0
-		int     $0x80           # syscall
+    # exit(0)
+    movl    $1, %eax        # sys_exit
+    xorl    %ebx, %ebx      # status 0
+    int     $0x80           # syscall
 
 .data
 message:
-	  .ascii "Hello, World!\n"
+    .ascii "Hello, World!\n"
 ```
 
 We can assemble this source with `gcc` driver and link the object file with `ld`. We shall choose 32-bit architecture. While linking, we shall use the `--omagic` option for `ld`. The OMAGIC format shall be chosen which uses the least amount of space. In terms of layout of the ELF file, this option will avoid page-alignment of the data segment saving extra padding. There is a downside that the text and data sections will be marked writable in addition to readable. Symbol data can be omitted with the `--strip-all` option for `ld`.
