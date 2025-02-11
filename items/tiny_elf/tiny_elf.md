@@ -27,6 +27,30 @@ message:
     .ascii "Hello, World!\n"
 ```
 
+As a complement to the original source, the size of the memory passed to `write` can be programmatically calculated. Here is the modified assembly code:
+
+```assembly
+# asm.s
+.global _start
+.text
+
+_start:
+    movl    $4, %eax
+    movl    $1, %ebx
+    movl    $msg, %ecx
+    movl    $len, %edx
+    int     $0x80
+
+    movl    $1, %eax
+    xorl    %ebx, %ebx
+    int     $0x80
+
+.data
+msg:
+    .asciz "hello, world\n"
+.equ len, . - msg
+```
+
 We can assemble this source with `gcc` driver and link the object file with `ld`. We shall choose 32-bit architecture. While linking, we shall use the `--omagic` option for `ld`. The OMAGIC format shall be chosen which uses the least amount of space. In terms of layout of the ELF file, this option will avoid page-alignment of the data segment saving extra padding. There is a downside that the text and data sections will be marked writable in addition to readable. Symbol data can be omitted with the `--strip-all` option for `ld`.
 
 ```
@@ -37,7 +61,7 @@ $ ls
 asm asm.o asm.s
 $
 $ ./asm
-Hello, World$
+hello, world
 $
 $ du --apparent-size -h asm
 312
@@ -70,9 +94,9 @@ The ELF is quite small, about 312 bytes. It can be made smaller because there ar
 Let us delve into the structure of an ELF file. The ELF header for 32-bit architecture is 52 bytes long, each program header entry in the program header table is 32 bytes long and each section header in the section header table is 40 bytes long. The ELF header contains architecture information, entry point in the program and information about next parts. Program headers contain information pertaining to the portions of ELF that are either loaded into the memory or provide information about how the execution process image is organized in the memory. These are called segments. Segments contain one or more sections. Each of the sections is described by an entry in the section header table. Now don't confuse between the memory segments in the address space of execution process namely `.text`, `.data`, `.bss`, `.rodata` et al. and the segments in the ELF file. We will be definitely needing the ELF header and program header table for the ELF to be able to execute but we do not need the section header table.
 
 ```
-readelf -egt asm
+$ readelf -egt asm
 ELF Header:
-  Magic:   7f 45 4c 46 01 01 01 00 00 00 00 00 00 00 00 00
+  Magic:   7f 45 4c 46 01 01 01 00 00 00 00 00 00 00 00 00 
   Class:                             ELF32
   Data:                              2's complement, little endian
   Version:                           1 (current)
@@ -96,48 +120,49 @@ Section Headers:
   [Nr] Name
        Type            Addr     Off    Size   ES   Lk Inf Al
        Flags
-  [ 0]
+  [ 0] 
        NULL            00000000 000000 000000 00   0   0  0
-       [00000000]:
+       [00000000]: 
   [ 1] .text
-       PROGBITS        08048054 000054 00001c 00   0   0  1
+       PROGBITS        08048054 000054 00001f 00   0   0  1
        [00000007]: WRITE, ALLOC, EXEC
   [ 2] .data
-       PROGBITS        08048070 000070 00000e 00   0   0  1
+       PROGBITS        08048073 000073 00000e 00   0   0  1
        [00000003]: WRITE, ALLOC
   [ 3] .shstrtab
-       STRTAB          00000000 00007e 000017 00   0   0  1
-       [00000000]:
+       STRTAB          00000000 000081 000017 00   0   0  1
+       [00000000]: 
 
 There are no section groups in this file.
 
 Program Headers:
   Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Align
-  LOAD           0x000054 0x08048054 0x08048054 0x0002a 0x0002a RWE 0x1
+  LOAD           0x000054 0x08048054 0x08048054 0x0002d 0x0002d RWE 0x1
 
  Section to Segment mapping:
   Segment Sections...
-   00     .text .data
+   00     .text .data 
 ```
 
-Inspecting the ELF we find that there is one program header entry corresponding to a single segment containing both the `.text` and `.data` sections. At an offset of 28 (0x1C) into the ELF header there is a four byte field that points to the start of the program header table in the file. This value will be 0x00000034 for 32-bit architecture. At an offset of 4 into a program header entry there is a four byte field that stores the offset of the correspoding segment in the file. This field will be at an offset of 56 (0x38) from the beginning of the file. This value is 0x00000054 for our ELF. The size of the segment in the file is stored in a four byte field at an offset of 16 (0x10) into a program header entry, and at an offset of 68 (0x44) from the beginning of the file. This value is 42 (0x0000002a) for our ELF. Therefore we need a total of 126 bytes from the beginning of the file. 
+Inspecting the ELF we find that there is one program header entry corresponding to a single segment containing both the `.text` and `.data` sections. At an offset of 28 (0x1C) into the ELF header there is a four byte field that points to the start of the program header table in the file. This value will be 0x00000034 for 32-bit architecture. At an offset of 4 into a program header entry there is a four byte field that stores the offset of the correspoding segment in the file. This field will be at an offset of 56 (0x38) from the beginning of the file. This value is 0x00000054 for our ELF. The size of the segment in the file is stored in a four byte field at an offset of 16 (0x10) into a program header entry, and at an offset of 68 (0x44) from the beginning of the file. This value is 45 (0x0000002d) for our ELF. Therefore we need a total of 129 bytes from the beginning of the file. 
 
 ```
-$ dd bs=1 count=126 if=asm of=asm.tiny
+$ dd bs=1 count=129 if=asm of=asm.tiny
 $
 $ xxd asm.tiny
 00000000: 7f45 4c46 0101 0100 0000 0000 0000 0000  .ELF............
 00000010: 0200 0300 0100 0000 5480 0408 3400 0000  ........T...4...
 00000020: 9800 0000 0000 0000 3400 2000 0100 2800  ........4. ...(.
 00000030: 0400 0300 0100 0000 5400 0000 5480 0408  ........T...T...
-00000040: 5480 0408 2a00 0000 2a00 0000 0700 0000  T...*...*.......
-00000050: 0100 0000 b804 0000 0031 dbb9 7080 0408  .........1..p...
-00000060: ba0e 0000 00cd 80b8 0100 0000 31db cd80  ............1...
-00000070: 6865 6c6c 6f2c 2077 6f72 6c64 0a00       hello, world..
+00000040: 5480 0408 2d00 0000 2d00 0000 0700 0000  T...-...-.......
+00000050: 0100 0000 b804 0000 00bb 0100 0000 b973  ...............s
+00000060: 8004 08ba 0e00 0000 cd80 b801 0000 0031  ...............1
+00000070: dbcd 8068 656c 6c6f 2c20 776f 726c 640a  ...hello, world.
+00000080: 00                                       .
 $
 $ readelf -egt asm.tiny
 ELF Header:
-  Magic:   7f 45 4c 46 01 01 01 00 00 00 00 00 00 00 00 00
+  Magic:   7f 45 4c 46 01 01 01 00 00 00 00 00 00 00 00 00 
   Class:                             ELF32
   Data:                              2's complement, little endian
   Version:                           1 (current)
@@ -161,11 +186,11 @@ readelf: Error: Section headers are not available!
 
 Program Headers:
   Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Align
-  LOAD           0x000054 0x08048054 0x08048054 0x0002a 0x0002a RWE 0x1
+  LOAD           0x000054 0x08048054 0x08048054 0x0002d 0x0002d RWE 0x1
 $
 $ chmod +x asm.tiny
 $ ./asm.tiny
 hello, world
 ```
 
-And that's it! We have an ELF which prints a short string that is 126 bytes in size. Check the [programs](https://github.com/notweerdmonk/notweerdmonk.github.io/tree/master/items/tiny_elf/programs) directory for source code.
+And that's it! We have an ELF which prints a short string that is 129 bytes in size. Check the [programs](https://github.com/notweerdmonk/notweerdmonk.github.io/tree/master/items/tiny_elf/programs) directory for source code.
