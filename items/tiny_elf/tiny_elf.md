@@ -15,7 +15,7 @@ _start:
     movl    $1, %ebx        # stdout
     movl    $message, %ecx  # message
     movl    $13, %edx       # length
-    movl    $0x80          # syscall
+    int     $0x80          # syscall
 
     # exit(0)
     movl    $1, %eax        # sys_exit
