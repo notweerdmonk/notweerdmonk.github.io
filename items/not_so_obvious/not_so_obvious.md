@@ -26,7 +26,7 @@ msg:
 .equ len, . - msg
 ```
 
-There is not much scope for optimizations in the source code here. We need to think about in terms of functionality of the program, that is printing a string to the standard output. If we constrain our assumptions of what printing to the standard output can imply, we may find some room. Most people run programs on a `terminal` through a program called `shell`. A Linux process has by default, the file descriptor `0` assigned to the standard input stream, the file descritor `1` assigned to the standard output stream and the file descriptor `2` assigned to the standard error stream. These streams correspond to standard I/O streams of the shell process. The `proc` filesystem provides information about a process referenced via a directory named as its `pid`. We can inspect the open file descriptors for a process by checking the `fd` subdirectory. The pid string `self` always refers to the current executing process.
+There is not much scope for optimizations in the source code here. We need to think in terms of functionality of the program, that is printing a string to the standard output. If we constrain our assumptions of what printing to the standard output can imply, we may find some room. Most people run programs on a `terminal` through a program called `shell`. A Linux process has by default, the file descriptor `0` assigned to the standard input stream, the file descritor `1` assigned to the standard output stream and the file descriptor `2` assigned to the standard error stream. These streams correspond to standard I/O streams of the shell process. The `proc` filesystem provides information about a process referenced via a directory named as its `pid`. We can inspect the open file descriptors for a process by checking the `fd` subdirectory. The pid string `self` always refers to the current executing process.
 
 ```
 $ bash
@@ -62,7 +62,7 @@ bello
 
 The file is marked read-write for its owner. And writing to it indeed writes to the terminal. Consequently writing to the standard input of the shell also writes to the terminal!
 
-In out assembly program, we can actually write to file descriptor `0` and still print the string to the terminal. How can we leverage this? We shall pass 0 as the second argument to the `write` syscall following its syscall number and this simplifies some things.
+In the assembly program, we can actually write to file descriptor `0` and still print the string to the terminal. How can we leverage this? We shall pass 0 as the second argument to the `write` syscall following its syscall number and this simplifies some things.
 
 ```asm
 # load 0 into a register using mov
