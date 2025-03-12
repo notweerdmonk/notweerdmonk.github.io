@@ -1,12 +1,12 @@
 # ByteBandits CTF 2020 - Autobot - Part 1
 
-###### Prologue
+##### Prologue
 
 This writeup walks through the `autobot` challenge from ByteBandits CTF 2020. The challenge was hosted on `pwn.byteband.it:6000`. On connecting to the service, some data is sent to the client. Analyzing this data we observe that its a stream of printable ASCII characters ending with the distinctive `==`. Off the top of one's head one might consider it to be base64 encoding. In practice this is the case. The server sends us a base64 encoded file. After sending this data, the server expects to receive some data from the client. If we sent just any ASCII string, it replies back with "Wrong pass" and closes the connection. What if we send the correct data? What is the correct data? Let us analyze the file.
 
 The writeup shall span multiple articles. In this first part we shall merely discover the `main` function.
 
-###### Mainly main
+##### Mainly main
 
 The provided file is 64-bit ELF that is stripped of symbols. In order to figure out the program we need to discover the `main` function.
 
@@ -287,7 +287,7 @@ End of assembler dump.
 
 We halt at the first instruction of the `main` function which starts from address `0x5555554009fe`.
 
-###### Epilogue
+##### Epilogue
 
 This concludes the first part. It takes quite some effort to find the `main` function from a binary stripped off symbols. There are tools that make it easier. On rainydays one may benefit from this [GDB script](https://github.com/notweerdmonk/notweerdmonk.github.io/blob/main/items/bytebanditsctf2020_autobot_01/programs/find_main.py).
 
