@@ -32,16 +32,14 @@ Program stopped.
 
 Programs stored as ELF files are loaded into the process memory using a program called runtime loader (ld.so). The entry point of `ld.so` is a label `_start` in a assembly routine defined by the macro `RTLD_START`[^1]. Once the program gets loaded, execution is transferred via a jmp instruction to the program's entry point in the `.text` section[^2]. This address stores a assembly routine provided by glibc; `_start` routine that sets up the command line arguments and calls the user's `main` function by calling `__libc_start_main` with the address of the `main`, `argc`, `argv` and other arguments.
 
-The program has been loaded into its process memory. The debugger halts the program at the first instruction at label `_start` from `ld.so`. From here onwards we need to track the execution to the instruction where `_start` from the program's `.text` section gets called. We can inspect the program for its entry point that should be beginning of the .text section.
+The program has been loaded into its process memory. The debugger halts the program at the instruction at label `_start` from `ld.so`. From here onwards we need to track the execution to the instruction where `_start` from the program's `.text` section gets called. We can inspect the program for its entry point that should be beginning of the .text section.
 
 ```
 (gdb) info files
-Symbols from "/home/weerdmonk/vagrant_boxes/vagrant_kali/bytebandctf/autobot".
 Native process:
         Using the running image of child process 2051404.
         While running this, GDB does not access memory from...
 Local exec file:
-        `/home/weerdmonk/vagrant_boxes/vagrant_kali/bytebandctf/autobot',
         file type elf64-x86-64.
         Entry point: 0x5555554006d0
         0x0000555555400238 - 0x0000555555400254 is .interp
@@ -83,7 +81,7 @@ Breakpoint 1, 0x00005555554006d0 in ?? ()
 
 The program halts at the first instruction of `_start` from glibc. Here is an excerpt from the glibc `_start` routine.
 
-```
+```asm
 file: sysdeps/x86_64/start.S
 ENTRY (_start)
 
@@ -118,7 +116,7 @@ ENTRY (_start)
 
 ```
 
-Although there are no symbols in the ELF file we can disassemble the machine code using a start address and a length in terms of bytes. Registers can be used in the expression to define the start address. We need the address of the current instruction, and therefore should use `$rip`, for the x86_64 program counter.
+Although there are no symbols in the ELF file we can disassemble the machine code using a start address and a length in terms of bytes. Registers can be used in the expression to define the start address. We need the address of the current instruction and therefore should use `$rip`, for the x86_64 program counter.
 
 Disassemble the instructions from the program counter till 100 bytes.
 
@@ -184,7 +182,7 @@ Breakpoint 3, __libc_start_call_main (main=main@entry=0x5555554009fe, argc=argc@
 29      ../sysdeps/nptl/libc_start_call_main.h: No such file or directory.
 ```
 
-It is not straightforward to figure out where the call to user's `main` happens in the disassembled instructions because the address of user's `main` is variable data which gets passed on to `__libc_start_main_impl` as its first argument. As per the x86_64 calling convention, the `rdi` register shall contain this argument. Note that `argc` and `argv` are the second and third arguments passed in `rsi` and `rdx` respectively. When `main` shall get called, it will also follow the same calling convention. The arguments for `main`, `argc`, `argv` and `env` shall be passed in the registers `rdi`, `rsi` and `rdx` respectively. Check the value of `argv`. Tracking the value of either `argc` or `argv` against the `rsi` register can lead us to vicinity of the `call` instruction that calls into user's `main`.
+It is not straightforward to figure out where the call to user's `main` happens in the disassembled instructions because the address of user's `main` is variable data which gets passed on to `__libc_start_main_impl` as its first argument. As per the x86_64 calling convention, the `rdi` register shall contain this argument. Note that `argc` and `argv` are the second and third arguments passed in `rsi` and `rdx` respectively. When `main` shall get called, it will also follow the same calling convention. The arguments for `main`, `argc`, `argv` and `env` shall be passed in the registers `rdi`, `rsi` and `rdx` respectively. Tracking the value of either `argc` or `argv` against the `rsi` register can lead us to vicinity of the `call` instruction that calls into user's `main`.
 
 ```
 (gdb) info reg $rdx
@@ -289,7 +287,7 @@ We halt at the first instruction of the `main` function which starts from addres
 
 ##### Epilogue
 
-This concludes the first part. It takes quite some effort to find the `main` function in a binary which is stripped off the symbols. There are tools that make it easier. On some rainydays one may benefit from this [GDB script](https://github.com/notweerdmonk/notweerdmonk.github.io/blob/main/items/bytebanditsctf2020_autobot_01/programs/find_main.py).
+This concludes the first part. It takes quite some effort to find the `main` function in a binary which is stripped of the symbols. There are tools that make it easier. On some rainydays one may benefit from this [GDB script](https://github.com/notweerdmonk/notweerdmonk.github.io/blob/main/items/bytebanditsctf2020_autobot_01/programs/find_main.py).
 
 ***
 
