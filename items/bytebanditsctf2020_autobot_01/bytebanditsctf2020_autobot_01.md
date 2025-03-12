@@ -291,7 +291,7 @@ We halt at the first instruction of the `main` function which starts from addres
 
 This concludes the first part. It takes quite some effort to find the `main` function from a binary stripped off symbols. There are tools that make it easier. On rainydays one may benefit from this [GDB script](https://github.com/notweerdmonk/notweerdmonk.github.io/blob/main/items/bytebanditsctf2020_autobot_01/programs/find_main.py).
 
+***
 
-
-[^1]: https://s.eresi-project.org/inc/articles/elf-rtld.txt
+[^1]: http://s.eresi-project.org/inc/articles/elf-rtld.txt
 [^2]: https://stevens.netmeister.org/631/elf.html
