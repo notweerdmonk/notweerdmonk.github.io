@@ -293,5 +293,5 @@ This concludes the first part. It takes quite some effort to find the `main` fun
 
 ***
 
-[^1]: http://s.eresi-project.org/inc/articles/elf-rtld.txt
-[^2]: https://stevens.netmeister.org/631/elf.html
+[^1]: [http://s.eresi-project.org/inc/articles/elf-rtld.txt](http://s.eresi-project.org/inc/articles/elf-rtld.txt)
+[^2]: [https://stevens.netmeister.org/631/elf.html](https://stevens.netmeister.org/631/elf.html)
