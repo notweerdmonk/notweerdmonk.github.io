@@ -1,3 +1,15 @@
+"""
+Copyright 2025 notweerdmonk
+
+I do not give anyone permissions to use this tool for any purpose. Don't use it.
+
+I’m not interested in changing this license. Please don’t ask.
+"""
+
+"""
+Find the main function in a program and more.
+"""
+
 import gdb
 import re
 
@@ -7,6 +19,7 @@ rdx = ""
 rdi = ""
 rip = ""
 main_call_addr = ""
+main_addr = ""
 main_called = False
 
 
@@ -18,10 +31,10 @@ def get_entry_point(start=False):
     info_output = gdb.execute("info files", to_string=True)
 
     for line in info_output.splitlines():
-        if re.search("\s+Entry point", line):
-            entry_point_line = line.strip()
-            entry_point_address = entry_point_line.split(":")[1].strip()
-            return entry_point_address
+        match = re.search(f"(Entry point: )(0x[a-zA-Z0-9]*)", line)
+        if match and len(match.groups()) == 2:
+            entry_point = match.group(2)
+            return entry_point
 
 
 def get_reg_value(register):
@@ -44,9 +57,7 @@ def get_instr_addr(addr, l, instruction, op_hint=""):
             line = line[:line.find(":")].strip()
             space_idx = line.find(" ")
             addr = line[:space_idx] if space_idx != -1 else line
-            if addr == -1:
-                return None
-            return addr
+            return None if len(addr) == 0 else addr
 
 
 def run_until(addr):
@@ -100,6 +111,7 @@ def find_main(step=False, fast=False, restart=False, clean=False):
     global rdi
     global rip
     global main_call_addr
+    global main_addr
     global main_called
 
     clean = True if clean else False
@@ -108,13 +120,14 @@ def find_main(step=False, fast=False, restart=False, clean=False):
         if step and not main_called and get_reg_value("rip") == main_call_addr:
             gdb.execute("stepi")
             main_called = True
-            return rax
+            main_addr = get_reg_value("rip")
+            return main_addr
 
         if len(main_call_addr) > 0:
-            return rax
+            return main_addr
 
-        if len(rdi) > 0:
-            return rdi
+        if len(main_addr) > 0:
+            return main_addr
 
     clear_all_breakpoints()
     main_called = False
@@ -132,11 +145,11 @@ def find_main(step=False, fast=False, restart=False, clean=False):
 
     if fast:
         # Calling convention wise $rdi = &main
-        rdi = get_reg_value("rdi")
+        main_addr = rdi = get_reg_value("rdi")
         set_breakpoint(rdi, clean)
         gdb.execute("continue")
         main_called = True
-        return rdi
+        return main_addr
 
     else:
         gdb.execute("stepi")
@@ -164,15 +177,15 @@ def find_main(step=False, fast=False, restart=False, clean=False):
         set_breakpoint(call_addr, clean)
         gdb.execute("continue")
 
-        main_call_addr = get_reg_value("rip")
+        main_call_addr = rip = get_reg_value("rip")
 
-        rax = get_reg_value("rax")
+        main_addr = rax = get_reg_value("rax")
 
     if step:
         gdb.execute("stepi")
         main_called = True
 
-    return rax
+    return main_addr
 
 
 class register_get_entry_point_command(gdb.Command):
@@ -265,7 +278,7 @@ class register_get_instruction_addr_command(gdb.Command):
     for operands starting from given address till given number of bytes.
 
     Usage:
-        get_instr_addr <address> <length> <instruction> <hint>
+        get_instr_addr <address> <length> <instruction> [hint]
     """
 
     def __init__(self):
