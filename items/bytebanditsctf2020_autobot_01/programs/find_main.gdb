@@ -51,7 +51,7 @@ define py_strcmp
     if arg_1.startswith('$') \
     else arg_1.strip('\\"') \
     # If this line gets printed with SyntaxError, you have probably used single quotes around an argument.
-    
+
   python gdb.set_convenience_variable("py_strcmp_result", 0) \
     if arg_0 == arg_1 \
     else gdb.set_convenience_variable("py_strcmp_result", 1)
@@ -72,14 +72,9 @@ define get-entry-point
     else None
 end
 
-define get-instr-addr
-  python _ = [ \
-    line \
-      for line in gdb.execute("disas $arg0, +$arg1", to_string=True).splitlines() \
-        if "\t$arg2" in line or "\s$arg2" in line \
-  ]; \
-  _ = _[0].lstrip("=>") if len(_) > 0 else None; \
-  _ = _[:_.find(":")].strip() if _ is not None else None
+define __set_instr_addr
+  python _ = _[0].lstrip("=>") if len(_) > 0 else None; \
+    _ = _[:_.find(":")].strip() if _ is not None else None
   python space_idx = _.find(" ") if _ is not None else -1; \
   instr_addr = _[:space_idx].strip() if space_idx != -1 else _
   python gdb.set_convenience_variable("instr_addr", int(instr_addr, 16)) \
@@ -88,6 +83,15 @@ define get-instr-addr
   python print(f"Address of next $arg0 instruction is {instr_addr}") \
     if _ is not None \
     else None
+end
+
+define get-instr-addr
+  python _ = [ \
+    line \
+      for line in gdb.execute("disas $arg0, +$arg1", to_string=True).splitlines() \
+        if "\t$arg2" in line or "\s$arg2" in line \
+  ];
+  __set_instr_addr $arg0 $arg1 $arg2
 end
 
 define get-instr-addr-hint
@@ -99,17 +103,8 @@ define get-instr-addr-hint
             if "\t$arg2" in line or "\s$arg2" in line \
       ] \
         if "$arg3" in line \
-  ]; \
-  _ = _[0].lstrip("=>") if len(_) > 0 else None; \
-  _ = _[:_.find(":")].strip() if _ is not None else None
-  python space_idx = _.find(" ") if _ is not None else -1; \
-  instr_addr = _[:space_idx] if space_idx != -1 else _
-  python gdb.set_convenience_variable("instr_addr", int(instr_addr, 16)) \
-    if _ is not None \
-    else None
-  python print(f"Address of next $arg0 instruction is {instr_addr}") \
-    if _ is not None \
-    else None
+  ];
+  __set_instr_addr $arg0 $arg1 $arg2
 end
 
 define step-main-help
@@ -131,7 +126,7 @@ end
 define step-main-opts
   py_strcmp $arg0 help
   if $py_strcmp_result == 0
-    find_main_print_help
+    find-main-print-help
   else
     __find_main step $arg0 $arg1 $arg2
   end
@@ -188,9 +183,7 @@ define on-main
 end
 
 define on-libc-start-call-main
-  #printf "rdx: 0x%lx\n", $rdx
   set $cur_rdx = $rdx
-  #printf "0x%lx\n", $cur_rdx
 
   watch $rsi == $cur_rdx
 
@@ -302,7 +295,7 @@ define __find_main
         if $main_call_addr != 0
           stepi
           show-main $main_addr
-          set_main_called
+          set-main-called
           set $done = 1
         end
       end

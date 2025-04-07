@@ -168,9 +168,9 @@ This stub of code calls into address 0x555555600fe0 which stores `__libc_start_m
    0x00005555554006f4
 (gdb) python _ = [line for line in [line for line in gdb.execute("disas $rip, +60", to_string=True).splitlines() if "call" in line] if "rip" in line][0]; call_addr = _[:_.find(":")]
 (gdb) python print(f"Address of next call instruction is {call_addr}")
+Address of next call instruction is 0x00005555554006f4
 (gdb) python gdb.execute(f"until *{call_addr}")
 0x00005555554006f4 in ?? ()
-(gdb) continue
 (gdb) stepi
 __libc_start_main_impl (main=0x5555554009fe, argc=1, argv=0x7fffffffdd08, init=0x555555400a20, fini=0x555555400a90, rtld_fini=0x7ffff7fc9040 <_dl_fini>, stack_end=0x7fffffffdcf8) at ../csu/libc-start.c:242
 242     ../csu/libc-start.c: No such file or directory.
