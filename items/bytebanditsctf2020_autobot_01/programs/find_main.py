@@ -61,7 +61,7 @@ class op(metaclass=token):
 
 def expect_tok(symbol: str, expected: token):
     return (
-        symbol
+        op.coerce(symbol)
         if expected == token.op and symbol in op
         else symbol
         if expected == token.literal and symbol not in op
