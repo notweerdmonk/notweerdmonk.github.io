@@ -6,5 +6,6 @@ relative_links:
 collections:
   items:
     output: true
+    permalink: /items/:path/
 include:
   - README.md
