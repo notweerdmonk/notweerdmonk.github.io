@@ -2,3 +2,4 @@
 #### [Not so obvious](items/technical/not_so_obvious/not_so_obvious.md)
 #### [Mainly main](items/write-ups/bytebanditsctf2020_autobot_01/bytebanditsctf2020_autobot_01.md)
 #### [River Life](items/literary/river_life/river_life.md)
+#### [Worth](items/literary/worth/worth.md)
