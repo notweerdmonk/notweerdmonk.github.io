@@ -38,7 +38,7 @@ and isn’t monster enough for any godforsaken mischief.\
 But still I have done deeds not so noble,\
 for which today I toss and tumble.\
 This journey of mine I exult and despise;\
-I shall but once meet all loved ones before I capsize.\
+I shall but once meet all loved ones before I capsize.
 
 ---
 October 2009, India
