@@ -29,11 +29,17 @@
 # For more information, please refer to <https://unlicense.org>
 #
 
-set -euo pipefail
+set -eo pipefail
 
+SCRIPTS_DIR="scripts"
 SRC_DIR="${1:-_items/}"
 DEFAULT_LAYOUT="default"
 OWNER="notweeerdmonk"
+
+# check for scripts directory for sourcing
+[[ ! -d "$SCRIPTS_DIR" ]] && echo "$SCRIPTS_DIR not found" && exit 1
+
+source "$SCRIPTS_DIR"/trim_markdown.bash
 
 # print YAML front-matter
 echo "---"
@@ -148,14 +154,26 @@ find "$SRC_DIR" -type f -name '*.md' | sort | while IFS= read -r file; do
   )
 
   # shorten excerpt to 60 chars
-  backticks="${excerpt//[^\`]}"
-  num_backticks="${#backticks}"
-  backtick_escaped_excerpt="${excerpt//\`}"
-  [ ${#backtick_escaped_excerpt} -gt 60 ] &&
-    {
-      num_chars=$((60 - 3 - $num_backticks))
-      excerpt="${excerpt:0:$num_chars}…"
-    }
+  #backticks="${excerpt//[^\`]}"
+  #num_backticks="${#backticks}"
+  #unset backticks
+  #backtick_escaped_excerpt="${excerpt//\`}"
+  #links="$(echo "$backtick_escaped_excerpt" | grep -o "([^()]*)")"
+  #num_links=$(echo "$links" | wc -l)
+  #links="${links//$'\n'}"
+  #num_links=$((($num_links * 2) + ${#links}))
+  #unset links
+  #links_escaped_excerpt="$(echo "$backtick_escaped_excerpt" | sed 's/([^()*)//g')"
+  #escaped_excerpt="${links_escaped_excerpt//[\[\]]}"
+  #unset backtick_escaped_excerpt
+  #unset links_escaped_excerpt
+  #[ ${#escaped_excerpt} -gt 60 ] &&
+  #  {
+  #    num_chars=$((${#excerpt} - 3 - $num_backticks))
+  #    num_chars=$((60 - 3 - $num_backticks))
+  #    excerpt="${excerpt:0:$num_chars}…"
+  #  }
+  excerpt="$(trim_markdown "$excerpt" 57)""…"
 
   id="$(basename "$file" ".md")"; id="${id/_/-}"
   printf "%s\t%s\t%s\t%s\t%s\t%s" "$stamp" "$(esc "$id")" "$(esc "$title")" \
