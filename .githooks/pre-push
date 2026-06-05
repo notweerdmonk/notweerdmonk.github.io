@@ -41,7 +41,7 @@ bash "scripts/generate_tags.bash"
 
 git add index.md
 git add tags/*
-git commit --dry-run -m \
+git commit -m \
   "Generated index.md and tags pages for ""$(git rev-parse --short HEAD)"
 
 exit 0
