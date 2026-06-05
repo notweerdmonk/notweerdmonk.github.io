@@ -1,0 +1,17 @@
+<header>
+  <div class="article-header">
+    <span class="article-title">
+      {{ page.title }}
+    </span>
+    <div class="article-meta">
+      <span class="article-date">{{ page.date | date: "%B %-d, %Y" }}</span>
+      {% if page.author %} &bull; <span class="article-author">{{ page.author }}</span>{% endif %}
+      &bull; <span class="reading-time">{% assign words = page.content | strip_html | strip_newlines | split: " " | size %}{% assign minutes = words | plus:199 | divided_by:200 %}{{ minutes }} min read</span>
+    </div>
+  </div>
+  <p class="article-meta">
+    {% if page.tags %}
+      <span class="article-tags">{% for tag in page.tags %}<a href="{{ '/tags/' | append: tag | relative_url }}">{{ tag }}</a>{% unless forloop.last %}&nbsp;|&nbsp;{% endunless %}{% endfor %}</span>
+    {% endif %}
+  </p>
+</header>

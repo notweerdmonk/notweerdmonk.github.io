@@ -7,5 +7,6 @@ collections:
   items:
     output: true
     permalink: /items/:path/
+    sort_by: date
 include:
   - README.md

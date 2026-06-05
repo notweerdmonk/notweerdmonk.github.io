@@ -1,0 +1,38 @@
+<meta name="description" content="
+  {% if site.github and site.github.repository_description %}
+    {{ site.github.repository_description | strip_newlines | strip }}
+  {% elsif page.description %}
+    {{ page.description | default: site.description | strip_newlines | strip }}
+  {% else %}
+    {{ page.title | default: site.description | strip_newlines | strip }}
+  {% endif %}
+">
+<meta name="author" content="
+  {% if page.author %}
+    {{ page.author }}
+  {% elsif site.github and site.github.owner_name %}
+    {{ site.github.owner_name }}
+  {% else %}
+    {{ site.title }}{% endif %}">
+<!-- Open Graph -->
+<meta property="og:title" content="
+  {% if site.github and site.github.owner_name and site.github.repository_name %}
+    {{ site.github.owner_name }} / {{ site.github.repository_name }}
+  {% else %}
+    {{ page.title | default: site.title }}
+  {% endif %}">
+<meta property="og:description" content="
+  {% if site.github and site.github.repository_description %}
+    {{ site.github.repository_description | strip_newlines | strip }}
+  {% elsif page.description %}
+    {{ page.description | default: site.description | strip_newlines | strip }}
+  {% else %}
+    {{ page.title | default: site.description | strip_newlines | strip }}
+  {% endif %}">
+<meta property="og:type" content="
+  {% if page.layout == 'article' %}
+    article
+  {% else %}
+    website
+  {% endif %}">
+<meta property="og:url" content="{{ page.url | absolute_url }}">

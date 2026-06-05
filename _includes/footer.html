@@ -1,0 +1,11 @@
+<footer>
+  <small>
+    &copy;
+    {{ site.time | date: "%Y" }}
+    {% if site.github && site.github.owner_name %}
+      {{ site.github.owner_name }}
+    {% else %}
+      {{ site.title }}
+    {% endif %}
+  </small>
+</footer>

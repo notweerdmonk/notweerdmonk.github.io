@@ -1,0 +1,56 @@
+<footer class="article-footer">
+  <nav class="article-nav">
+    {% capture the_collection %}{{page.collection}}{% endcapture %}
+    {% if page.collection %}
+      {% comment %} 1. Get the current collection and sort it by your front matter 'order' key {% endcomment %}
+      {% assign current_collection = site[the_collection] | sort: "order" %}
+
+      {% comment %} 2. Find the index loop position of the current page {% endcomment %}
+      {% for item in current_collection %}
+        {% if item.url == page.url %}
+          {% assign current_index = forloop.index0 %}
+          {% break %}
+        {% endif %}
+      {% endfor %}
+
+      {% comment %} 3. Calculate previous and next index numbers {% endcomment %}
+      {% assign prev_index = current_index | minus: 1 %}
+      {% assign next_index = current_index | plus: 1 %}
+
+      {% comment %} 4. Assign the actual items if they fall within bounds {% endcomment %}
+      {% if prev_index >= 0 %}
+        {% assign prev_doc = current_collection[prev_index] %}
+      {% endif %}
+
+      {% assign total_items = current_collection | size %}
+      {% if next_index < total_items %}
+       {% assign next_doc = current_collection[next_index] %}
+      {% endif %}
+    {% endif %}
+
+    <span class="preserve-whitespace">
+      {% if prev_doc %}
+        <a class="prev" href="{{ prev_doc.url | relative_url }}">
+          <span class="arrow-text">&lt;</span>
+          <span class="larrow"></span>
+          <span class="bullet">&bull;</span>
+          <span>{{ prev_doc.title }}</span></a>
+        &nbsp;&nbsp;
+      {% endif %}
+      {% if next_doc %}
+        &nbsp;&nbsp;
+        <a class="next" href="{{ next_doc.url | relative_url }}">
+          <span>{{ next_doc.title }}</span>
+          <span class="bullet">&bull;</span>
+          <span class="rarrow"></span>
+          <span class="arrow-text">&gt;</span></a>
+      {% endif %}
+    </span>
+  </nav>
+
+  <!--
+  <p class="article-actions">
+    <a href="{{ page.url | absolute_url }}#comments">Discuss</a>
+  </p>
+  -->
+</footer>

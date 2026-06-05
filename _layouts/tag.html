@@ -1,0 +1,81 @@
+---
+layout: default
+---
+<div class="article">
+  <section class="article-body">
+  <h2>Tag - {{ page.tag }}</h2>
+
+    {% assign query = page.tag %}
+
+    {% unless site.tags[query] %}
+      {% for pair in site.tags %}
+        {% assign candidate = pair[0] %}
+        {% assign candidate_slug = candidate | slugify %}
+        {% if candidate_slug == page.tag %}
+          {% assign query = candidate %}
+          {% break %}
+        {% endif %}
+      {% endfor %}
+    {% endunless %}
+
+    {% assign seen = "|" %}
+    {% capture items %}{% endcapture %}
+
+    {% comment %}Scan site.posts{% endcomment %}
+    {% if site.posts %}
+      {% for p in site.posts %}
+        {% if p.tags and p.tags contains query %}
+          {% assign url = p.url | default: p.path %}
+          {% assign marker = "|" | append: url | append: "|" %}
+          {% unless seen contains marker %}
+            {% capture items %}{{ items }}
+              <tr>
+                <td>
+                  <a href="{{ url | relative_url }}">{{ p.title | default: p.data.title }}</a>
+                </td>
+                {% if p.date %}
+                  <td>
+                    {{ p.date | date: "%Y-%m-%d" }}
+                  </td>
+                {% endif %}
+              </tr>
+            {% endcapture %}
+            {% assign seen = seen | append: url | append: "|" %}
+          {% endunless %}
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+
+    {% comment %}Scan all collections (each loop item is a collection object){% endcomment %}
+    {% for doc in site.items %}
+      {% if doc.tags and doc.tags contains query %}
+        {% assign url = doc.url | default: doc.path %}
+        {% assign marker = "|" | append: url | append: "|" %}
+        {% unless seen contains marker %}
+          {% assign title = doc.title | default: doc.data.title %}
+          {% capture items %}{{ items }}
+          <tr>
+            <td>
+              <a href="{{ url | relative_url }}">{{ title }}</a>
+            </td>
+            {% if doc.date %}
+            <td>
+              {{ doc.date | date: "%Y-%m-%d" }}
+            </td>
+            {% endif %}
+          </tr>
+          {% endcapture %}
+          {% assign seen = seen | append: url | append: "|" %}
+        {% endunless %}
+      {% endif %}
+    {% endfor %}
+
+    {% if items != "" %}
+      <table style="max-width: unset;width: 100%">
+        {{ items }}
+      </table>
+    {% else %}
+      <p>No posts for this tag.</p>
+    {% endif %}
+  </section>
+</div>

@@ -1,0 +1,13 @@
+<title>
+  {% if site.github %}
+    {{ page.title | default: site.title }}
+    {% if site.github.owner_name %}
+      | {{ site.github.owner_name }}
+    {% else %}
+      | {{ page.author }}
+    {% endif %}
+  {% else %}
+    {{ page.title | default: site.title }} | {{ page.autor }}
+  {% endif %}
+</title>
+{% include metadata.html %}

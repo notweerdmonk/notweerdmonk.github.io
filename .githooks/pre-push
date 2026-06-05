@@ -1,0 +1,47 @@
+#!/bin/sh
+
+# A hook script to generate index.md and tag pages. Called by "git push" after
+# it has checked the remote status, but before anything has been pushed. If this
+# script exits with a non-zero status nothing will be pushed.
+#
+# This hook is called with the following parameters:
+#
+# $1 -- Name of the remote to which the push is being done
+# $2 -- URL to which the push is being done
+#
+# If pushing without using a named remote those arguments will be equal.
+#
+# Information about the commits which are being pushed is supplied as lines to
+# the standard input in the form:
+#
+#   <local ref> <local oid> <remote ref> <remote oid>
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+[ -z "$REPO_ROOT" ] && exit 1
+
+cd "$REPO_ROOT"
+
+trap "
+  exit_code=\$?; \
+  [ \$exit_code -ne 0 ] && [ -e index.md.bak ] && cp index.md.bak index.md; \
+  rm -f index.md.bak; \
+  [ \$exit_code -ne 0 ] && [ -e tags ] && cp -r tags.bak tags; \
+  rm -rf tags.bak \
+" EXIT
+
+[ -e index.md ] && cp index.md index.md.bak
+
+bash "scripts/generate_index.bash" > index.md
+[ $? -ne 0 ] && exit 1
+
+[ -e tags ] && cp -r tags tags.bak
+
+bash "scripts/generate_tags.bash"
+[ $? -ne 0 ] && exit 1
+
+git add index.md
+git add tags/*
+git commit --dry-run -m \
+  "Generated index.md and tags pages for ""$(git rev-parse --short HEAD)"
+
+exit 0

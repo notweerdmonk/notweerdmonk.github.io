@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>
+  
+    
+      notweerdmonk
+    
+  
+</title>
+<meta name="description" content="
+  
+    notweeerdmonk
+  
+">
+<meta name="author" content="
+  
+    notweerdmonk
+  ">
+<!-- Open Graph -->
+<meta property="og:title" content="
+  
+    notweerdmonk / notweerdmonk.github.io
+  ">
+<meta property="og:description" content="
+  
+    notweeerdmonk
+  ">
+<meta property="og:type" content="
+  
+    website
+  ">
+<meta property="og:url" content="http://localhost:4000/index.md.orig">
+
+
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+  <header>
+  <nav class="nav">
+    <a class="nav-banner" href="/">notweerdmonk</a>
+    &bull;
+    <a class="nav-tab" href="/tags/">tags</a>
+  </nav>
+</header>
+
+  <main>
+    | --- | --- | --- |
+| <span id="bit-fields">[Bit-fields](/technical/bit_fields/)</span> | Thu Jun  4 2026 | Bit-fields represent a sophisticated mechanism in low-lev… |
+| <span id="worth">[Worth](/literary/worth/)</span> | Wed Feb 18 2026 | For the first light I saw I owe to nine months of her pain, |
+| <span id="river-life">[River Live](/literary/river_life/)</span> | Wed Feb 18 2026 | I, a mere boatman, and I navigate this river |
+| <span id="bytebanditsctf2020-autobot_01">[Mainly Main](/write-ups/bytebanditsctf2020_autobot_01/)</span> | Mon Apr  7 2025 | This writeup walks through the `autobot` challenge … |
+| <span id="not-so_obvious">[Not so obvious](/technical/not_so_obvious/)</span> | Thu Feb 13 2025 | The [previous](/technical/tiny_elf/) post about reducing … |
+| <span id="tiny-elf">[Tiny Elf](/technical/tiny_elf/)</span> | Wed Feb 12 2025 | Dave Plummer posted on twitter asking out for tips to com… |
+
+  </main>
+  <footer>
+  <small>
+    &copy;
+    2026
+    
+      notweerdmonk
+    
+  </small>
+</footer>
+
+</body>
+</html>

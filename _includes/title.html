@@ -1,0 +1,12 @@
+<title>
+  {% if site.github && site.github.owner_name %}
+    {% if site.github.repository_description %}
+      {{ site.github.owner_name }} - {{ site.github.repository_description }}
+    {% else %}
+      {{ site.github.owner_name }}
+    {% endif %}
+  {% else %}
+    {{ page.title | default: site.title }}
+  {% endif %}
+</title>
+{% include metadata.html %}

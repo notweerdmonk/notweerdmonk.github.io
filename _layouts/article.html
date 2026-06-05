@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  {% include article_title.html %}
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+  <link href=" https://cdn.jsdelivr.net/npm/github-markdown-css@5.9.0/github-markdown.min.css " rel="stylesheet">
+</head>
+<body>
+  {% include header.html %}
+  <div>
+    <article class="article">
+      {% include article_header.html %}
+      <section class="article-body markdown-body">
+        {{ content }}
+      </section>
+      {% include article_footer.html %}
+    </article>
+  </div>
+  {% include footer.html %}
+</body>
+</html>
