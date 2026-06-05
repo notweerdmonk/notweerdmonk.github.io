@@ -35,7 +35,7 @@ layout: default
                 </td>
                 {% if p.date %}
                   <td>
-                    {{ p.date | date: "%Y-%m-%d" }}
+                    {{ p.date | date: "%a %b %_d %Y" }}
                   </td>
                 {% endif %}
               </tr>
@@ -60,7 +60,7 @@ layout: default
             </td>
             {% if doc.date %}
             <td>
-              {{ doc.date | date: "%Y-%m-%d" }}
+              {{ doc.date | date: "%a %b %_d %Y" }}
             </td>
             {% endif %}
           </tr>
