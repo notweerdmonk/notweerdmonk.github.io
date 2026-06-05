@@ -3,8 +3,8 @@ layout: default
 title: "Tags"
 permalink: /tags/
 ---
-<div class="article">
-<section class="article-body">
+<div class="tags">
+<section class="tags-body">
 <h1>Tags</h1>
 <table style="max-width: unset;width: 100%">
 {% capture all_tags_str %}{% endcapture %}

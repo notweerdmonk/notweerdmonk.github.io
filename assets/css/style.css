@@ -65,7 +65,10 @@ body {
   font-weight:600;
   margin: 0 1.5rem 0 1.5rem;
 }
-.article {
+.tags td:nth-child(2) {
+  text-align: right;
+}
+.article, .tags {
   max-width: 48rem;
   margin: 2rem auto;
   padding: 0 1rem;
@@ -83,7 +86,7 @@ body {
   color:#666;
   font-size:.9rem;
 }
-.article-body {
+.article-body, .tags-body {
   font-size: 16px;
 }
 .article-body img {
