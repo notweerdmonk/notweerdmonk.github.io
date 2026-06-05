@@ -160,8 +160,8 @@ Using the declaration attribute `packed` which forces members to be laid out
 without any padding in between.[^3] Consequently such members do not have the
 normal memory alignment for their types and taking their addresses can result in
 an invalid pointer. This attribute also applies to bit-fields allowing them to
-be positioned across byte boundaries. Still, padding gets added when the last
-bit-field member does not occupy all the bits of the byte it spans up to.
+be positioned across byte boundaries[^4]. Still, padding gets added when the
+last bit-field member does not occupy all the bits of the byte it spans up to.
 
 `clang` also supports this type attribute. `MSVC` however, requires the
 `pragma pack` directives. `GCC` specifically warns about the change in alignment
