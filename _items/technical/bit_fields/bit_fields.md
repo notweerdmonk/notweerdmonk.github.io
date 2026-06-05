@@ -52,7 +52,7 @@ and bitmasks.
 
 ```c
 enum counter_bitpos {
-    COUNTER_FIELD_ID_BITPOS                 = 0
+    COUNTER_FIELD_ID_BITPOS                 = 0,
     COUNTER_FIELD_COUNT_DIRECTION_BITPOS    = 2,
     COUNTER_FIELD_REPEAT_BITPOS             = 3,
     COUNTER_FIELD_COUNT_BITPOS              = 4,
@@ -118,8 +118,8 @@ struct bit_field_struct {
     signed char small       : 4;
 } s;
 
-s.opcode    = 0xAE;
-s.small     = 3;
+s.opcode    = 0xa;
+s.small     = 0xa;
 ```
 
 Such a declaration specifies two bit-fields occupting 4 bits each. Being
@@ -446,7 +446,7 @@ union register8* register8_set_bit(union register8 *ptr, unsigned char bit) {
 ```
 
 The resulting assembly code and corresponding machine code shall not be listed
-for brevity. Refer the Compiler Explorer source tree[^6]. It so happens that
+for brevity. Refer the Compiler Explorer tree[^6]. It so happens that
 `switch`...`case` statements produce obnoxious amount of jumps in assembly with
 `avr-gcc`. Falling back to the good old `if`...`else` construct alleviates this
 undesirable latency.
@@ -479,7 +479,7 @@ union register8* register8_set_bit(union register8 *ptr, unsigned char bit) {
 
 The source code above produces substantially lesser assembly code and
 consequently lesser machine code. As mentioned earlier, refer the Compiler
-Explorer source tree[^6] for complete assembly listing. Below is a chunk of the
+Explorer tree[^6] for complete assembly listing. Below is a chunk of the
 assembly code corresponding to the conditional block for zeroeth bit position. 
 
 ```asm
@@ -632,8 +632,9 @@ This concludes our discussion regarding the topic of bit-fields. Bear in
 rememberance that these approaches are presented in specifity towards the `x86`
 and `AVR` architectures and therefore shall be utilized with understanding.
 
-[^1]: [Wikipedia - Bit field](https://en.wikipedia.org/wiki/Bit_field)\
-[^2]: [GNU software foundation - GNU C Language Manual - Bit Fields](https://www.gnu.org/software/c-intro-and-ref/manual/html_node/Bit-Fields.html)\
-[^3]: [GNU software foundation - GNU C Language Manual - Packed Structures](https://www.gnu.org/software/c-intro-and-ref/manual/html_node/Packed-Structures.html)\
+[^1]: [Wikipedia - Bit field](https://en.wikipedia.org/wiki/Bit_field)
+[^2]: [GNU software foundation - GNU C Language Manual - Bit Fields](https://www.gnu.org/software/c-intro-and-ref/manual/html_node/Bit-Fields.html)
+[^3]: [GNU software foundation - GNU C Language Manual - Packed Structures](https://www.gnu.org/software/c-intro-and-ref/manual/html_node/Packed-Structures.html)
 [^4]: [GNU software foundation - GNU C Language Manual - Bit Field Packing](https://www.gnu.org/software/c-intro-and-ref/manual/html_node/Bit-Field-Packing.html)
 [^5]: [GNU software foundation - Using the GNU Compiler Collection - Warning Options](https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wpacked-bitfield-compat)
+[^6]: [Compiler Explorer tree](https://godbolt.org/z/5b88ErEaP)

@@ -27,7 +27,7 @@
  * For more information, please refer to <https://unlicense.org>
  */
 
-#ifdef __cplusplus
+#if defined __cplusplus && !defined __AVR__
 #include <cstdio>
 #else
 #include <stdio.h>
@@ -41,7 +41,12 @@
 /* Enables most optimal inline-assembly implementation */
 #define __CUSTOM_ASM__
 
-struct __attribute__ ((packed)) bits {
+#ifdef _MSC_VER
+#pragma pack(1)
+struct bits {
+#else
+struct __attribute__((packed)) bits {
+#endif
     unsigned char bit0 : 1;
     unsigned char bit1 : 1;
     unsigned char bit2 : 1;
@@ -283,7 +288,13 @@ union register16* register16_clear_bit(
 
 int main() {
     /* 8-bit register representation */
-    union register8 R0;
+    union register8 R0 = {
+#ifdef _MSC_VER
+        0
+#else
+        .reg = 0
+#endif
+    };
 
     R0.byte0.bit0 = 1;
     R0.byte0.bit3 = 1;
@@ -301,7 +312,13 @@ int main() {
     /*************************************************************************/
 
     /* 16-bit register representation */
-    union register16 R2;
+    union register16 R2 = {
+#ifdef _MSC_VER
+        0
+#else
+        .reg = 0
+#endif
+    };
 
     R2.bytes.byte0.bit1 = 1;
     R2.bytes.byte0.bit3 = 0;

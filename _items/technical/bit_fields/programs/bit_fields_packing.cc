@@ -27,68 +27,66 @@
  * For more information, please refer to <https://unlicense.org>
  */
 
-#ifdef __cplusplus
+#if defined __cplusplus && !defined __AVR__
 #include <cstdio>
 #else
 #include <stdio.h>
 #endif
 
-struct {
+struct a_non_packed {
     unsigned char a : 3;
     unsigned char b : 3;
     unsigned char c : 3;
     unsigned char d : 3;
     unsigned char e : 3;
-} a;
+};
 
 #ifdef _MSC_VER
 #pragma pack(1)
+struct a_packed {
 #else
-struct __attribute__((packed)) {
+struct __attribute__((packed)) a_packed {
 #endif
     unsigned char a : 3;
     unsigned char b : 3;
     unsigned char c : 3;
     unsigned char d : 3;
     unsigned char e : 3;
-} a_packed;
+};
 
-struct {
+struct b_non_packed {
     unsigned char a : 3;
     unsigned char b : 3;
-    unsigned int c : 3;
+    unsigned int  c : 3;
     unsigned char d : 3;
     unsigned char e : 3;
-} b;
+};
 
 #ifdef _MSC_VER
 #pragma pack(1)
+struct b_packed {
 #else
-struct __attribute__((packed)) {
+struct __attribute__((packed)) b_packed {
 #endif
     unsigned char a : 3;
     unsigned char b : 3;
-    unsigned int c : 3;
+    unsigned int  c : 3;
     unsigned char d : 3;
     unsigned char e : 3;
-} b_packed;
+};
 
-const int a_size = sizeof(a);
-const int a_packed_size = sizeof(a_packed);
-const int b_size = sizeof(b);
-const int b_packed_size = sizeof(b_packed);
+const unsigned long a_size = sizeof(struct a_non_packed);
+const unsigned long a_packed_size = sizeof(struct a_packed);
+const unsigned long b_size = sizeof(struct b_non_packed);
+const unsigned long b_packed_size = sizeof(struct b_packed);
 
 int main(int argc, char *argv[]) {
     printf(
-#ifdef _MSC_VER
-        "%zu %zu %zu %zu\n",
-#else
         "%lu %lu %lu %lu\n",
-#endif
-        sizeof(a),
-        sizeof(b),
-        sizeof(a_packed),
-        sizeof(b_packed)
+        a_size,
+        b_size,
+        a_packed_size,
+        b_packed_size
     );
 
     return 0;

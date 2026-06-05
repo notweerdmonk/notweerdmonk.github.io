@@ -27,7 +27,7 @@
  * For more information, please refer to <https://unlicense.org>
  */
 
-#ifdef __cplusplus
+#if defined __cplusplus && !defined __AVR__
 #include <cstdio>
 #else
 #include <stdio.h>
@@ -60,11 +60,15 @@ struct counter {
     unsigned short count            : 6;
     unsigned short top              : 6;
 } counter = {
+#ifdef _MSC_VER
+    0
+#else
     .id = 0,
     .count_direction = 0,
     .repeat = 0,
     .count = 0,
     .top = 0
+#endif
 };
 
 union counter_u {
@@ -77,7 +81,11 @@ union counter_u {
         unsigned short top              : 6;
     } counter;
 } counter2 = {
+#ifdef _MSC_VER
+    0
+#else
     .bytes = 0,
+#endif
 };
 
 union counter_u* set_counter_bits(
@@ -89,7 +97,13 @@ union counter_u* set_counter_bits(
     return p;
 }
 
-union counter_u counter3 = { .bytes = 0 };
+union counter_u counter3 = {
+#ifdef _MSC_VER
+    0
+#else
+    .bytes = 0
+#endif
+};
 
 struct bit_field_struct {
     unsigned char opcode    : 4;
