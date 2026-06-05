@@ -191,5 +191,4 @@ $
 ```
 
 We have an ELF file which prints a short string to the terminal that is 126
-bytes in size. Check the [programs](/technical/not_so_obvious/programs/)
-directory for source code.
+bytes in size. Check the [programs](https://github.com/notweerdmonk/notweerdmonk.github.io/tree/main/_items/technical/not_so_obvious/programs) directory for source code.

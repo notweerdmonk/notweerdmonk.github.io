@@ -252,4 +252,4 @@ hello, world
 ```
 
 And that's it! We have an ELF which prints a short string that is 129 bytes in
-size. Check the [programs](https://github.com/notweerdmonk/notweerdmonk.github.io/tree/master/items/tiny_elf/programs) directory for source code.
+size. Check the [programs](https://github.com/notweerdmonk/notweerdmonk.github.io/tree/main/_items/technical/tiny_elf/programs) directory for source code.

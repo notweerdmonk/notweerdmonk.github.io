@@ -395,7 +395,7 @@ address `0x5555554009fe`.
 This concludes the first part. We followed the execution of a program from its
 first instruction till its `main` function and learned some things about finding
 the `main` function in an ELF which is stripped of symbols. There are tools that
-make it easier. On rainydays one may benefit from this [GDB script](https://github.com/notweerdmonk/notweerdmonk.github.io/blob/main/items/bytebanditsctf2020_autobot_01/programs/find_main.gdb).
+make it easier. On rainydays one may benefit from this [GDB script](https://github.com/notweerdmonk/notweerdmonk.github.io/tree/main/_items/write-ups/bytebanditsctf2020_autobot_01/programs).
 
 ```
 $ gdb -q ls
