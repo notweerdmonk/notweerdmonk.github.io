@@ -39,30 +39,30 @@ main td:nth-child(3) {
   text-overflow: ellipsis;
 }
 body {
-  font-family:system-ui,Segoe UI,Roboto,Arial;
+  font-family: system-ui,Segoe UI,Roboto,Arial;
   font-size: 1.2rem;
   line-height: 1.5;
-  background:var(--bg);
-  color:var(--fg);
-  margin:0;
-  padding:2rem;
+  background: var(--bg);
+  color: var(--fg);
+  margin: 0;
+  padding: 2rem;
 }
 .nav {
-  display:flex;
+  display: flex;
   align-items: center;
   /*justify-content:space-between;*/
   padding: 0.5rem 0 0.5rem 0;
 }
 .nav-banner {
-  color:inherit;
+  color: inherit;
   margin-right: 1.5rem;
-  text-decoration-line:none;
-  font-weight:600;
+  text-decoration-line: none;
+  font-weight: 600;
   font-size: 1.5em;
 }
 .nav-tab {
-  color:inherit;
-  font-weight:600;
+  color: inherit;
+  font-weight: 600;
   margin: 0 1.5rem 0 1.5rem;
 }
 .tags td:nth-child(2) {
@@ -74,42 +74,42 @@ body {
   padding: 0 1rem;
 }
 .article-header {
-  display:flex;
-  justify-content:space-between;
-  margin:0 0 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 0 1.25rem;
 }
 .article-title {
-  color:#666;
-  font-size:.9rem;
+  color: #666;
+  font-size: .9rem;
 }
 .article-meta {
-  color:#666;
-  font-size:.9rem;
+  color: #666;
+  font-size: .9rem;
 }
 .article-body, .tags-body {
   font-size: 16px;
 }
 .article-body img {
-  max-width:100%;
-  height:auto;
+  max-width: 100%;
+  height: auto;
 }
 .article-nav {
-  display:flex;
-  justify-content:space-between;
-  margin-top:2rem;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
   align-items: center;
 }
 .article-tags {
-  display:flex;
-  justify-content:center;
-  white-space:preserve wrap;
-  color:blue;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  white-space: preserve wrap;
   font-size: 1.1em;
 }
 .article-tags > a {
-  color:blue;
-  font-weight:500;
-  text-decoration:none;
+  font-weight: 500;
+  text-decoration: none;
+  text-wrap: nowrap;
 }
 .prev, .next {
   display: flex;
@@ -125,7 +125,7 @@ body {
 }
 
 .arrow-text {
-  color: #0d1117;
+  color: var(--bg);
 }
 .larrow {
   align-items: center;
@@ -164,4 +164,17 @@ body {
   border-bottom: 2px solid currentColor;
   transform: translateY(-50%) rotate(-45deg); /* Rotates square border to point right */
   transform-origin: center;
+}
+footer {
+  display: flex;
+  align-items: center;
+}
+.footer-wrap {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.footer-tab, .footer-tab > * {
+  color:inherit;
+  font-weight: 600;
 }

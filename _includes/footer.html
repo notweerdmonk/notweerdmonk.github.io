@@ -1,11 +1,17 @@
 <footer>
-  <small>
-    &copy;
-    {{ site.time | date: "%Y" }}
-    {% if site.github && site.github.owner_name %}
-      {{ site.github.owner_name }}
-    {% else %}
-      {{ site.title }}
-    {% endif %}
+  <small class="footer-wrap">
+    <span class="footer-tab">
+      &copy;
+      {{ site.time | date: "%Y" }}
+      {% if site.github && site.github.owner_name %}
+        {{ site.github.owner_name }}
+      {% else %}
+        {{ site.title }}
+      {% endif %}
+    </span>
+    &bull;
+    <span class="footer-tab">
+      <a href="{{ '/readme/' | relative_url }}">README</a>
+    </span>
   </small>
 </footer>
