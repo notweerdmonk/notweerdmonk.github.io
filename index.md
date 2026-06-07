@@ -3,6 +3,7 @@ layout: default
 title: notweeerdmonk
 ---
 | --- | --- | --- |
+| <span id="youre-the_bomb">[You're the bomb](/write-ups/bomb_lab/)</span> | Sat Jun  6 2026 | Before we plunge into lines of assembly code here is some… |
 | <span id="bit-fields">[Bit-fields](/technical/bit_fields/)</span> | Thu Jun  4 2026 | Bit-fields represent a sophisticated mechanism in low-lev… |
 | <span id="worth">[Worth](/literary/worth/)</span> | Wed Feb 18 2026 | For the first light I saw I owe to nine months of her pai… |
 | <span id="river-life">[River Live](/literary/river_life/)</span> | Wed Feb 18 2026 | I, a mere boatman, and I navigate this river… |
