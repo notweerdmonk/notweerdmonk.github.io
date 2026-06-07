@@ -406,8 +406,8 @@ union register8 {
 
 The union encapsulates two aliased fields, an `unsigned char` representing an
 8-bit register and a packed `struct` containing bit-fields with each field
-having a width of one bit each, aliasing the one-byte field, facilitating access
-of individual bits of the register.
+having a width of one bit each, aliasing the bits of the `unsigned char` member,
+facilitating access of individual bits of the register.
 
 For setting individual bits, such a function can be utilized.
 
@@ -517,7 +517,7 @@ But the increase in machine code size urges the keen programmer to pursue
 further.
 
 If we place an array of bit values in the memory, corresponding to eight bits
-only for the given case, we can index into such array using the bit position
+only for the given case, we can index into such an array using the bit position
 passed as an argument.
 
 ```c
@@ -581,7 +581,7 @@ build on generalized primitives. This is to enable universality and
 completeness. Purpose built machine code, only for the sake of optimization is
 almost impossible to maintain and strives to function for a wide range of
 inputs. It is irrational to expect the programmer to write performant and
-correct programs with ease, catering such levels of nuanced behavrior.
+correct programs with ease, catering such levels of nuanced behavior.
 
 That said, we can make the function presented earlier, leaner with this
 implementation presented below.
@@ -605,7 +605,6 @@ union register8* register8_set_bit(union register8 *ptr, unsigned char bit) {
         : "z" (__bitvallookup)
         : "r26", "r27"
     )
-    return ptr;
 }
 ```
 
