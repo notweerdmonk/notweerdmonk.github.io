@@ -1091,10 +1091,15 @@ Therefore, we need to achieve a result of seven from the recursive traveral of
 a binary search tree with the formulations presented below.
 
 $$
-f(root, n) =  0, n == key
-f(root, n) = -1, root == NULL
-f(root, n) = 2 * f(left, n)
-f(root, n) = (2 * f(right, n)) + 1
+\begin{aligned}
+f(\text{root}, \text{n}) &=
+\begin{cases}
+-1 & \text{if } \text{root} = \text{NULL} \\
+0 & \text{if } \text{n} = \text{key} \\
+2 * f(\text{left}, \text{n}) & \text{if } \text{n} < \text{key}
+\\  2 * f(\text{right}, \text{n}) + 1 & \text{if } \text{n} > \text{key}
+\end{cases}
+\end{aligned}
 $$
 
 It is fairly intuitive to arrive at a conclustion that the base case of
@@ -1102,8 +1107,8 @@ recursion that we require is the equivalence of the input integer with a tree
 node key and not the discovery of any child of a leaf node. This is becuase
 a return value of negative one shall continue to remain negative and increases
 in absolute magniture, hence the solution diverges from the value of seven. In
-simpler words we need to start with some integer $\text{a}_{i}$ and use either of
-$\text{a}_{i + 1} = 2\times\text{a}_{i}$ or $\text{a}_{i + 1} = 2\times\text{a}_{i}+1$. And we should have $\text{a}_{i}$ as zero.
+simpler words we need to start with some integer $a_i$ and use either of
+$a_{i + 1} = 2 \times a_i$ or $a_{i + 1} = 2 \times a_i + 1$. And we should have $a_i$ as zero.
 
 The left child recursion tree is inconsequential as zero doubled, is zero. The
 right child recursion yeilds one for the penultimate recursive call that is
