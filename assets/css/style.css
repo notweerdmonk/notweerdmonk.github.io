@@ -250,6 +250,7 @@ body {
   justify-content: space-between;
   margin-top: 2rem;
   align-items: center;
+  min-width: 100%;
 }
 
 .article-tags {
