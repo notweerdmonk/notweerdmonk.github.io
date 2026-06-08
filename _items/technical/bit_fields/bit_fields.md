@@ -600,11 +600,11 @@ union register8* register8_set_bit(union register8 *ptr, unsigned char bit) {
         "st     X, r24              \n\t"
         "__ret:                     \n\t"
         "movw   r24, r30            \n\t"
-        "ret"
         :
         : "z" (__bitvallookup)
         : "r26", "r27"
-    )
+    );
+    return ptr;
 }
 ```
 
@@ -612,9 +612,9 @@ union register8* register8_set_bit(union register8 *ptr, unsigned char bit) {
 ; register8_set_bit(register8*, unsigned char):
         ldi r30,lo8(__bitvallookup)
         ldi r31,hi8(__bitvallookup)
+        movw   r26, r24
         cpi    r22, 0x08           
         brsh   __ret               
-        movw   r26, r24            
         add    r30, r22            
         adc    r31, __zero_reg__   
         ld     r22, Z              
@@ -623,7 +623,6 @@ union register8* register8_set_bit(union register8 *ptr, unsigned char bit) {
         st     X, r24              
         __ret:                     
         movw   r24, r30            
-        ret
         ret
 ```
 

@@ -140,7 +140,6 @@ struct bits* bits_set_bit(
         "st     X, r24              \n\t"
         "__ret:                     \n\t"
         "movw   r24, r30            \n\t"
-        "ret"
         :
         : "z" (__bitvallookup)
         : "r26", "r27"
