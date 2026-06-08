@@ -1068,7 +1068,7 @@ if (root == NULL) {
    ret *= 2;
 } else if (n > root->key) {
    ret = fun7(root->right, n);
-   ret += 2;
+   ret *= 2;
    ++ret;
 }
 return ret;
@@ -1137,8 +1137,7 @@ $3 = 1001
 We have a constraint that the input integer cannot be greater than 1001. Seems
 proper considering the key of the right-most leaf is 1001. Coincidentally this
 leaf node is located at a depth of three edges from the tree root, satisfying
-three invocations of the rule $\text{a}_{i + 1} = 2\times\text{a}_{i}+1$ with
-$\text{a}_0 = 0$.
+three invocations of the rule $a_{i + 1} = 2 \times a_i + 1$ with $a_0 = 0$.
  
 As the `secret_phase` function requires six input strings to have been read by
 `read_line`, but reads its input from the string passed as input for `phase_4`,
@@ -1196,6 +1195,6 @@ Hope luke warm water does not get cold while one waits for a solver! Modern
 frameworks are fast and accurate. But one can only foster proficiency with
 rigor over the acquaintance with fundamentals.
 
-[^1]: (http://csapp.cs.cmu.edu/public/labs.html)
-[^2]: (https://github.com/xuzhezhaozhao/CSAPP-Labs/tree/master/bomb%20lab)
-[^3]: (https://github.com/uva-cs/pdr/blob/master/book/x86-32bit-ccc-chapter.pdf)
+[^1]: [CMU CS:APP2e](http://csapp.cs.cmu.edu/public/labs.html)
+[^2]: [xuzhezhaozhao](https://github.com/xuzhezhaozhao/CSAPP-Labs/tree/master/bomb%20lab)
+[^3]: [x86 32-bit C calling convention](https://github.com/uva-cs/pdr/blob/master/book/x86-32bit-ccc-chapter.pdf)
