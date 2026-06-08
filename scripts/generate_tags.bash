@@ -81,9 +81,9 @@ done < <(find "$COLLECTION_DIR" -type f -name '*.md' -print)
 
 # helper slugify: lowercase, replace non-alnum with -, squeeze -
 slugify() {
-  echo "$1" | iconv -t ascii//TRANSLIT 2>/dev/null || true \
+  echo "$1" | iconv -t ascii//TRANSLIT 2>/dev/null \
     | tr '[:upper:]' '[:lower:]' \
-    | sed 's/[^a-z0-9]/-/g' | sed 's/-\+/-/g' | sed 's/^-//;s/-$//'
+    | sed 's/[^a-z0-9]/-/g' | sed 's/[- ]\+/-/g' | sed 's/^-//;s/-$//'
 }
 
 # remove old generated tag dirs (but keep anything not matching pattern)
@@ -99,7 +99,7 @@ for tag in "${!TAGS[@]}"; do
   cat > "$dir/index.md" <<EOF
 ---
 layout: $LAYOUT
-tag: $slug
+tag: $tag
 title: "Tag: ${tag}"
 permalink: /$TAGS_DIR/$slug/
 ---
