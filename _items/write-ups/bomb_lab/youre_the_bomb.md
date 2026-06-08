@@ -242,15 +242,6 @@ Dump of assembler code for function phase_1:
 > proceed to understand how arguments are passed and functions get called. Refer
 > up this document[^3] or search the internet.
 
-
-> [!NOTE]
->
-> See also the GitHub official GitHub Pages Action first.
->
-> - [GitHub Pages now uses Actions by default | The GitHub Blog](https://github.blog/2022-08-10-github-pages-now-uses-actions-by-default/)
-> - [GitHub Pages: Custom GitHub Actions Workflows (beta) | GitHub Changelog](https://github.blog/changelog/2022-07-27-github-pages-custom-github-actions-workflows-beta/)
->
-
 It is not entirely necessary to analyze `strings_not_equal` at this point. After
 you have understood the calling convention, its easier to understand that there
 are two arguments to this function which are being pushed to the stack. The
