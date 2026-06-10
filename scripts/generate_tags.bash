@@ -55,9 +55,7 @@ while IFS= read -r file; do
     tags_line=$(echo "$tags_line" | tr -d '[]')
     IFS=',' read -ra parts <<< "$tags_line"
     for t in "${parts[@]}"; do
-      tag=$(echo "$t" \
-        | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' \
-        | tr '[:upper:]' '[:lower:]')
+      tag=$(echo "$t" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
       [[ -z "$tag" ]] && continue
       TAGS["$tag"]=1
     done
@@ -70,8 +68,7 @@ while IFS= read -r file; do
       | awk '/^tags:[[:space:]]*$/,/^([^[:space:]]|$)/' \
       | sed -n 's/^[[:space:]]*-\s*//p')
     for t in "${yaml_tags[@]}"; do
-      tag=$(echo "$t" \
-        | sed 's/^[[:space:]]*//;s/[[:space:]]*$//') \
+      tag=$(echo "$t" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
       [[ -z "$tag" ]] && continue
       TAGS["$tag"]=1
     done
