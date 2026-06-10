@@ -71,8 +71,7 @@ while IFS= read -r file; do
       | sed -n 's/^[[:space:]]*-\s*//p')
     for t in "${yaml_tags[@]}"; do
       tag=$(echo "$t" \
-        | sed 's/^[[:space:]]*//;s/[[:space:]]*$//' \
-        | tr '[:upper:]' '[:lower:]')
+        | sed 's/^[[:space:]]*//;s/[[:space:]]*$//') \
       [[ -z "$tag" ]] && continue
       TAGS["$tag"]=1
     done
