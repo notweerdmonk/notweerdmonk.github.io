@@ -39,7 +39,7 @@ bash "scripts/generate_index.bash" > index.md
 bash "scripts/generate_tags.bash"
 [ $? -ne 0 ] && exit 1
 
-diff index.md.bak index.md || diff -r tags.bak tags || exit 0
+diff index.md.bak index.md && diff -r tags.bak tags && exit 0
 
 git add index.md
 git add tags/*
