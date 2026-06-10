@@ -1,7 +1,7 @@
 ---
 layout: tag
-tag: elf
-title: "Tag: elf"
+tag: ELF
+title: "Tag: ELF"
 permalink: /tags/elf/
 ---
-<!-- page for tag elf -->
+<!-- page for tag ELF -->

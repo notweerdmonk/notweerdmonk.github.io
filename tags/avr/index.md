@@ -1,7 +1,7 @@
 ---
 layout: tag
-tag: avr
-title: "Tag: avr"
+tag: AVR
+title: "Tag: AVR"
 permalink: /tags/avr/
 ---
-<!-- page for tag avr -->
+<!-- page for tag AVR -->

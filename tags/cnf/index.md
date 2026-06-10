@@ -1,7 +1,7 @@
 ---
 layout: tag
-tag: cnf
-title: "Tag: cnf"
+tag: CNF
+title: "Tag: CNF"
 permalink: /tags/cnf/
 ---
-<!-- page for tag cnf -->
+<!-- page for tag CNF -->
