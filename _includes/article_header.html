@@ -11,7 +11,7 @@
   </div>
   <p class="article-meta">
     {% if page.tags %}
-      <span class="article-tags">{% for tag in page.tags %}<a href="{{ '/tags/' | append: tag | relative_url }}">{{ tag }}</a>{% unless forloop.last %}&nbsp;|&nbsp;{% endunless %}{% endfor %}</span>
+      <span class="article-tags">{% for tag in page.tags %}{% assign slug = tag | slugify %}<a href="{{ '/tags/' | append: slug | relative_url }}">{{ tag }}</a>{% unless forloop.last %}&nbsp;|&nbsp;{% endunless %}{% endfor %}</span>
     {% endif %}
   </p>
 </header>
