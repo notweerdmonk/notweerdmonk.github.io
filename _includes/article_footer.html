@@ -35,10 +35,14 @@
           <span class="larrow"></span>
           <span class="bullet">&bull;</span>
           <span>{{ prev_doc.title }}</span></a>
-        &nbsp;&nbsp;
+        {% if next_doc %}
+          &nbsp;&nbsp;
+        {% endif %}
       {% endif %}
       {% if next_doc %}
-        &nbsp;&nbsp;
+        {% if prev_doc %}
+          &nbsp;&nbsp;
+        {% endif %}
         <a class="next" href="{{ next_doc.url | relative_url }}">
           <span>{{ next_doc.title }}</span>
           <span class="bullet">&bull;</span>

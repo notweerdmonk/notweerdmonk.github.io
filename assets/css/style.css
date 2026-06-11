@@ -273,6 +273,14 @@ body {
   gap: 0.2em;
 }
 
+.prev {
+  margin-right: auto;
+}
+
+.next {
+  margin-left: auto;
+}
+
 .preserve-whitespace {
   display: inline-flex;
   justify-content: space-between;
@@ -283,6 +291,11 @@ body {
 .arrow-text {
   color: var(--bg);
 }
+
+.arrow-text::selection {
+  color: var(--bg);
+}
+
 .larrow {
   align-items: center;
   position: relative;
@@ -339,3 +352,81 @@ footer {
   color:inherit;
   font-weight: 600;
 }
+
+main * .foo {
+  position: relative;
+  font-size: inherit;
+}
+
+main .foo > input {
+  position: absolute;
+  left: -9999px;
+}
+
+main .foo > label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 0;
+}
+
+/* disable all by default so clicks fall through */
+main * .foo label { pointer-events:none; }
+
+/* enable exactly one label depending on checked radio */
+#_1:checked ~ .btn-to-2,
+#_2:checked ~ .btn-to-3,
+#_3:checked ~ .btn-to-4,
+#_4:checked ~ .btn-to-5,
+#_5:checked ~ .btn-to-6,
+#_6:checked ~ .btn-to-7,
+#_7:checked ~ .btn-to-8,
+#_8:checked ~ .btn-to-9,
+#_9:checked ~ .btn-to-10,
+#_10:checked ~ .btn-to-11,
+#_11:checked ~ .btn-to-12,
+#_12:checked ~ .btn-to-13,
+#_13:checked ~ .btn-to-14,
+#_14:checked ~ .btn-to-15,
+#_15:checked ~ .btn-to-16,
+#_16:checked ~ .btn-to-17,
+#_17:checked ~ .btn-to-18,
+#_18:checked ~ .btn-to-19,
+#_19:checked ~ .btn-to-20,
+#_20:checked ~ .btn-to-21,
+#_21:checked ~ .btn-to-22,
+#_22:checked ~ .btn-to-23,
+#_23:checked ~ .btn-to-1
+{ pointer-events:auto; }
+
+#_1:checked ~ span, 
+#_2:checked ~ span, 
+#_3:checked ~ span, 
+#_4:checked ~ span
+#_5:checked ~ span
+#_6:checked ~ span
+#_7:checked ~ span
+#_8:checked ~ span
+#_9:checked ~ span
+#_10:checked ~ span
+#_11:checked ~ span
+#_12:checked ~ span
+#_13:checked ~ span
+#_14:checked ~ span
+#_15:checked ~ span
+#_16:checked ~ span
+#_17:checked ~ span
+#_18:checked ~ span
+#_19:checked ~ span
+#_20:checked ~ span
+#_21:checked ~ span
+#_22:checked ~ span {
+}
+
+#_23:checked ~ span {
+  color: var(--fg);
+}
+
