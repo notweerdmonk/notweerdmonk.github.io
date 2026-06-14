@@ -353,17 +353,17 @@ footer {
   font-weight: 600;
 }
 
-main * .foo {
+main div.article-body span not(.arrow-text) {
   position: relative;
   font-size: inherit;
 }
 
-main .foo > input {
+main div.article-body span input {
   position: absolute;
   left: -9999px;
 }
 
-main .foo > label {
+main div.article-body span label {
   position: absolute;
   inset: 0;
   display: flex;
@@ -373,57 +373,32 @@ main .foo > label {
   border: 0;
 }
 
+main div.article-body br { display: none; }
+
+main div.article-body span form {
+  display: inline-block;
+  position: relative;
+  pointer-events: none;
+}
+
+main div.article-body span span::after { content: "\49\20\6D\69\73\73\20\4E\65\61\72\2E" }
+
+main div.article-body span button { all: unset; white-space: pre; }
+
 /* disable all by default so clicks fall through */
-main * .foo label { pointer-events:none; }
+main div.article-body span label { pointer-events:none; }
+main div.article-body span span { pointer-events:none; }
 
 /* enable exactly one label depending on checked radio */
-#_1:checked ~ .btn-to-2,
-#_2:checked ~ .btn-to-3,
-#_3:checked ~ .btn-to-4,
-#_4:checked ~ .btn-to-5,
-#_5:checked ~ .btn-to-6,
-#_6:checked ~ .btn-to-7,
-#_7:checked ~ .btn-to-8,
-#_8:checked ~ .btn-to-9,
-#_9:checked ~ .btn-to-10,
-#_10:checked ~ .btn-to-11,
-#_11:checked ~ .btn-to-12,
-#_12:checked ~ .btn-to-13,
-#_13:checked ~ .btn-to-14,
-#_14:checked ~ .btn-to-15,
-#_15:checked ~ .btn-to-16,
-#_16:checked ~ .btn-to-17,
-#_17:checked ~ .btn-to-18,
-#_18:checked ~ .btn-to-19,
-#_19:checked ~ .btn-to-20,
-#_20:checked ~ .btn-to-21,
-#_21:checked ~ .btn-to-22,
-#_22:checked ~ .btn-to-23,
-#_23:checked ~ .btn-to-1
-{ pointer-events:auto; }
-
-#_1:checked ~ span, 
-#_2:checked ~ span, 
-#_3:checked ~ span, 
-#_4:checked ~ span
-#_5:checked ~ span
-#_6:checked ~ span
-#_7:checked ~ span
-#_8:checked ~ span
-#_9:checked ~ span
-#_10:checked ~ span
-#_11:checked ~ span
-#_12:checked ~ span
-#_13:checked ~ span
-#_14:checked ~ span
-#_15:checked ~ span
-#_16:checked ~ span
-#_17:checked ~ span
-#_18:checked ~ span
-#_19:checked ~ span
-#_20:checked ~ span
-#_21:checked ~ span
-#_22:checked ~ span {
+#_1 ~ .__2 { pointer-events: auto; }
+#_2:checked ~ .__3, #_3:checked ~ .__4, #_4:checked ~ .__5,
+#_5:checked ~ .__6, #_6:checked ~ .__7, #_7:checked ~ .__8, #_8:checked ~ .__9,
+#_9:checked ~ .__10, #_10:checked ~ .__11, #_11:checked ~ .__12,
+#_12:checked ~ .__13, #_13:checked ~ .__14, #_14:checked ~ .__15,
+#_15:checked ~ .__16, #_16:checked ~ .__17, #_17:checked ~ .__18,
+#_18:checked ~ .__19, #_19:checked ~ .__20, #_20:checked ~ .__21,
+#_21:checked ~ .__22, #_22:checked ~ .__23, #_23:checked ~ .__1 {
+  pointer-events:auto;
 }
 
 #_23:checked ~ span {

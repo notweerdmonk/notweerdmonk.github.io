@@ -98,10 +98,12 @@ endif
 
 endif
 
+OPTIMIZATION := -Os
+
 all: $(TARGETS)
 
 %: %.cc
-	$(COMPILER) -Wall -Wextra -fstrict-aliasing -Wno-unused-parameter -o $@ $<
+	$(COMPILER) $(OPTIMIZATION) -Wall -Wextra -fstrict-aliasing -Wno-unused-parameter -o $@ $<
 
 clean:
 	rm -f $(TARGETS)

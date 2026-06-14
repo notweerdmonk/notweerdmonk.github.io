@@ -12,22 +12,22 @@ canonical_url: "https://notweerdmonk.github.io/write-ups/bomb_lab/"
 ---
 # Bomb Lab CS:APP2e CMU
 
-Before we plunge into lines of assembly code here is some background. This
-reverse engineering assignment is part of a course offered at CMU[^1]. Its
-appropriately named _Bomb Lab_ as the task provides a **binary bomb** to
-students. This binary requires six strings from the user which are read either
-from the standard input or a text file. Providing an incorrect string will set
-off the bomb! The pupils need to find the six strings to successfully defuse
-the bomb.
+Before we plunge into lines of assembly code, here is some background. This
+reverse engineering assignment is part of a course offered at CMU[^1]. It's
+appropriately named _Bomb Lab_ as the task provides a **binary bomb** for
+students. The binary requires six strings from the user which are read either
+from standard input or a text file. Providing an incorrect string will set off
+the bomb! The pupils need to find the six strings to successfully defuse the
+bomb.
 
-I stumbled upon this on the internet few years back when I was beginning to
-learn reversing binaries. Many thanks to [xuzhezhaozhao](https://github.com/xuzhezhaozhao/) for sharing the binary
-and laboratory write-up[^2]. You shall be provided with a tar file containing
-the binary.
+I stumbled upon this on the internet a few years back when I was beginning to
+learn reverse engineering binaries. Many thanks to [xuzhezhaozhao](https://github.com/xuzhezhaozhao/) for sharing
+the binary and laboratory write-up[^2]. You will be provided with a tar file
+containing the binary.
 
 ---
 
-Now armed with linux, `bash` and the ever amazing `gdb`, we set out to defuse
+Now armed with Linux, `bash` and the ever-amazing `gdb`, we set out to defuse
 this binary bomb.
 
 ```console
@@ -35,12 +35,12 @@ $ file bomb
 bomb: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.0.0, not stripped
 ```
 
-The convenient way is to use a virtual machine emulator/hypervisor like `qemu`,
-`VirtualBox`, `vagrant` or whatever other virtual machine feels sane. Next you
-need a 32-bit Linux distro (you can also do this on a Windows or Mac machine,
-forage around the internet). Make sure to have atleast the common Unix tools
-like `file`, `strings`, `gdb`, etc installed before you proceed. This task make
-me learn using `gdb` in an entirely new light.
+The convenient way is to use a virtual machine emulator/hypervisor such as
+`QEMU`, `VirtualBox`, `Vagrant` or whatever other virtual machine feels sane.
+Next you need a 32-bit Linux distro; you can also do this on a Windows or Mac
+machine, forage around the internet. Make sure to have at least the common Unix
+tools, such as `file`, `strings`, `gdb`, etc., installed before you proceed.
+This task made me learn using `gdb` in an entirely new light.
 
 Load the binary with `gdb` and set a breakpoint at `main`.
 
@@ -144,8 +144,8 @@ Dump of assembler code for function initialize_bomb:
 ```
 
 The program reads one line either from `stdin` or from the file we provide, and
-passes this string to a function `phase_1`. There are six such functions which
-represent the six phases we need to successfully pass inorder to defuse the
+passes this string to a function `phase_1`. There are six such functions, which
+represent the six phases we need to successfully pass in order to defuse the
 bomb.
 
 A function `read_line` is used to read lines from the input.
@@ -240,14 +240,14 @@ Dump of assembler code for function phase_1:
 >
 > Knowledge of the `x86` 32-bit C calling convention is required before you
 > proceed to understand how arguments are passed and functions get called. Refer
-> up this document[^3] or search the internet.
+> to this document[^3] or search the internet.
 
 It is not entirely necessary to analyze `strings_not_equal` at this point. After
-you have understood the calling convention, its easier to understand that there
-are two arguments to this function which are being pushed to the stack. The
-first one is the input string and the second is a read-only string in the `data`
-section. The string comparision function will return 0 if two strings match
-exactly else it will return 1.
+you have understood the calling convention, it's easier to understand that there
+are two arguments to this function, which are being pushed to the stack. The
+first is the input string, and the second is a read-only string in the `data`
+section. The string comparison function returns 0 if two strings match exactly,
+otherwise it will return 1.
 
 ```asm
 Dump of assembler code for function strings_not_equal:
@@ -266,7 +266,7 @@ Dump of assembler code for function strings_not_equal:
    0x08049074 <+68>:  jne    0x8049057 <strings_not_equal+39>
    0x08049076 <+70>:  inc    edx
    0x08049077 <+71>:  inc    ecx
-   ; keep checking till end of input string
+   ; keep checking until end of input string
    0x08049078 <+72>:  cmp    BYTE PTR [edx],0x0
    0x0804907b <+75>:  jne    0x8049070 <strings_not_equal+64>
    0x0804907d <+77>:  xor    eax,eax
@@ -306,18 +306,18 @@ Dump of assembler code for function phase_2:
    0x08048b4f <+7>:  push   ebx
    0x08048b50 <+8>:  mov    edx,DWORD PTR [ebp+0x8]
    0x08048b53 <+11>:  add    esp,0xfffffff8
-   ; load address of array of 6 int into eax
+   ; load address of an array of 6 integers into eax
    0x08048b56 <+14>:  lea    eax,[ebp-0x18]
    0x08048b59 <+17>:  push   eax
    0x08048b5a <+18>:  push   edx
    ; read_size_numbers populates this array from input string
    0x08048b5b <+19>:  call   0x8048fd8 <read_six_numbers>
    0x08048b60 <+24>:  add    esp,0x10
-   ; first integer should be 1 else bomb explodes
+   ; first integer should be 1; otherwise the bomb explodes
    0x08048b63 <+27>:  cmp    DWORD PTR [ebp-0x18],0x1
    0x08048b67 <+31>:  je     0x8048b6e <phase_2+38>
    0x08048b69 <+33>:  call   0x80494fc <explode_bomb>
-   ; ebx is set to 1 and later used to index into the arry
+   ; ebx is set to 1 and later used to index into the array
    0x08048b6e <+38>:  mov    ebx,0x1
    ; load address of the array into esi
    0x08048b73 <+43>:  lea    esi,[ebp-0x18]
@@ -353,16 +353,15 @@ Starting with 1, six numbers in the sequence are 1, 2, 6, 24, 120, 720.
 
 ## phase 3
 
-Two `int` and a `char` are extracted from the input string. Let's use literals
-`a` and `b` for the two integers, and `c` for the character. `a` is used in
-a switch block consisting of eight cases for each value starting with 0 till 7.
-The case blocks load a 8-bit constant value into `bl` (the lowest byte of `ebx`)
-which will be compared against `c`. And then there are checks comparing `b` with
-constant integral values.
+Two `int` variables and a `char` are extracted from the input string. Let's use
+literals `a` and `b` for the two integers, and `c` for the character. `a` is
+used in a switch block consisting of eight cases for each value starting from
+0 up to 7.  The case blocks load a 8-bit constant value into `bl` (the lowest
+byte of `ebx`) which will be compared against `c`. And then there are checks
+comparing `b` with constant integral values.
 
-We need to set `a` to any number from 0 to 7, but `c` and `b` should be set
-such that the checks in corresponding case blocks pass. Possible values are
-listed below.
+We need to set `a` to any number from 0 to 7, and choose `c` and `b` so that the
+checks in corresponding case blocks pass. Possible values are listed below.
 
 ```console
 0 q 777
@@ -372,10 +371,10 @@ listed below.
 4 o 160
 5 t 458
 6 v 780
-7 { 524
+7 b 524
 ```
 
-Disasembly for `phase_3` is presented below.
+Disassembly for `phase_3` is shown below.
 
 ```asm
 (gdb) disas phase_3
@@ -459,7 +458,7 @@ Dump of assembler code for function phase_3:
    0x08048c6d <+213>:  je     0x8048c8f <phase_3+247>
    0x08048c6f <+215>:  call   0x80494fc <explode_bomb>
    0x08048c74 <+220>:  jmp    0x8048c8f <phase_3+247>
-   ; case 7: bl = '{'
+   ; case 7: bl = 'b'
    0x08048c76 <+222>:  mov    bl,0x62
    ; if (b == 524)
    0x08048c78 <+224>:  cmp    DWORD PTR [ebp-0x4],0x20c
@@ -479,8 +478,8 @@ Dump of assembler code for function phase_3:
    0x08048c9f <+263>:  ret
 ```
 
-We can examine the address of the argument to `sscanf` to obtain the format
-string.
+We can examine the address of the second argument to `sscanf` to obtain the
+format string.
 
 ```asm
 (gdb) x/s 0x80497de
@@ -576,8 +575,8 @@ Dump of assembler code for function func4:
    0x08048cdd <+61>:  ret
 ```
 
-The returned sum is compared with 55. Fibonacci sum of first nine numbers in the
-sequence is 55.
+The returned sum is compared with 55. The Fibonacci sum of first nine numbers in
+the sequence is 55.
 
 ```console
 0 + 1 + 1 + 2 + 3 + 5 + 8 + 13 + 21 + 34 = 55
@@ -587,9 +586,9 @@ sequence is 55.
 ## phase 5
 
 `phase_5` requires a string of six characters as input. The lower nibble of each
-the ASCII characters in our input string is used to index into a read-only
-string and populate another array of six characters. This local array is then
-compared to the string "giants".
+ASCII character in our input string is used to index into a read-only string and
+populate another array of six characters. This local array is then compared to
+the string "giants".
 
 ```asm
 (gdb) disas phase_5
@@ -612,19 +611,20 @@ Dump of assembler code for function phase_5:
    0x08048d48 <+28>:  call   0x80494fc <explode_bomb>
    ; clear edx and use it as index variable
    0x08048d4d <+33>:  xor    edx,edx
-   ; load address of a local array which can hold atleast six characters, into ecx
+   ; load the address of a local array that can hold at least six characters,
+   ; into ecx
    0x08048d4f <+35>:  lea    ecx,[ebp-0x8]
    ; load address of character array into esi
    0x08048d52 <+38>:  mov    esi,0x804b220
-   ; load each ascii character from input string into al
+   ; load each ASCII character from input string into al
    0x08048d57 <+43>:  mov    al,BYTE PTR [edx+ebx*1]
    ; retain the lower nibble
    0x08048d5a <+46>:  and    al,0xf
    0x08048d5c <+48>:  movsx  eax,al
-   ; use the number in eax to index into the character array which esi points to
-   ; load the ascii character into al
+   ; use the number in eax to index into the character array that esi points to,
+   ; load that ASCII character into al
    0x08048d5f <+51>:  mov    al,BYTE PTR [eax+esi*1]
-   ; save this character at into the local array also indexed with edx
+   ; save this character into the local array also indexed with edx
    0x08048d62 <+54>:  mov    BYTE PTR [edx+ecx*1],al
    ; loop for six characters in the input string
    0x08048d65 <+57>:  inc    edx
@@ -650,11 +650,11 @@ Dump of assembler code for function phase_5:
    0x08048d94 <+104>:  ret
 ```
 
-Examining the location `0x804b220` we get a read-only string.
+Examining the location `0x804b220` we find that it contains a read-only string.
 
 ```asm
+(gdb) x/s 0x804b220
 0x804b220 <array.123>:   "isrveawhobpnutfg\260\001"
-(gdb) x/s 0x804980b
 ```
 
 For each of the letters in "giants", the offsets into this string are presented
@@ -669,7 +669,7 @@ offset of 't' = 13 = 0xd
 offset of 's' = 1  = 0x1
 ```
 
-Looking up the table of ASCII codes, we need to chose six characters such that
+Looking up the table of ASCII codes, we need to choose six characters such that
 their lower nibbles correspond with the offsets we just found out above. One
 such string is presented below.
 
@@ -680,21 +680,21 @@ opekma
 
 ## phase 6
 
-The last phase shall not be documented in this article and is left as an
-exercise for the reader. Your hint for this phase is `4 2 6 3 1 5`.
+The last phase will not be documented in this article and is left as an exercise
+for the reader. Your hint for this phase is `4 2 6 3 1 5`.
 
 ## secret phase
 
 ---
 
 **tl;dr**
-Yes it exists, right alongside `phase 4`. If you have figured out `phase 6`
-I encourage to take on the discovery of this hidden phase. A hint for you is...
+Yes, it exists, right alongside `phase 4`. If you have figured out `phase 6`
+I encourage you to take on the discovery of the hidden phase. Hint for you is...
  _Oh behave!_
 
 ---
 
-I shall tell you about the `secret phase` however.
+I will tell you about the `secret phase`, regardless.
 
 There are two stages in the secret phase. The first is detecting and entering
 the secret phase and the second is solving it.
@@ -730,13 +730,14 @@ _Let's disassemble!_
    0x0804952d <+1>:     mov    ebp,esp
    0x0804952f <+3>:     sub    esp,0x64
    0x08049532 <+6>:     push   ebx
-   ; compare 4-bytes at 0x804b480 in the data segment with immediate value of 6
+   ; compare four bytes starting at 0x804b480 in the data segment, with the
+   ; immediate value of 6
    0x08049533 <+7>:     cmp    DWORD PTR ds:0x804b480,0x6
    0x0804953a <+14>:    jne    0x804959f <phase_defused+115>
 ```
 
 We can use the `info` command along with `symbol` subcommand to describe the
-symbol at a specified memory location in `gdb`. We shall use it to examine the
+symbol at a specified memory location in `gdb`. We will use it to examine the
 location which is used for the compare operation.
 
 ```asm
@@ -779,10 +780,10 @@ location to peek at what the program does.
 => 0x080492b6 <read_line+186>:  8b 7d e8        mov    edi,DWORD PTR [ebp-0x18]
 ```
 
-We are in towards the end of `read_line` function where it increments
-`num_input_strings`, after reading a line of input. Refresh your memory about
-how `skip` actually reads strings into a buffer from a `FILE` stream. The buffer
-is located at `0x804b680` and each read consists of eighty characters.
+We are towards the end of `read_line` function where it increments
+`num_input_strings`, after reading a line of input. Refresh your memory on how
+`skip` actually reads strings into a buffer from a `FILE` stream. The buffer is
+located at `0x804b680` and each read consists of eighty characters.
 
 We continue with analysis of `phase_defused`.
 
@@ -836,11 +837,11 @@ We continue with analysis of `phase_defused`.
 
 We find that the function reads an integer and a string from the input strings
 buffer using `sscanf`. The location `0x804b770` is at an offset of 240 bytes
-from `0x804b680`, a buffer named `input_strings`. It stores the the input string
-for `phase_4`. An integer was required for this phase's input. The function
-above checks the number of arguments successfully read should equal two.
-Thereafter `strings_not_equal` is called with the input string and another
-location in memory. This location `0x8049d09` stores a string.
+from `0x804b680`, a buffer named `input_strings`. It stores the input string for
+`phase_4`. An integer was required for this phase's input. The function above
+checks the number of arguments successfully read should equal two. Thereafter
+`strings_not_equal` is called with the input string and another location in
+memory. This location `0x8049d09` stores a string.
 
 ```asm
 (gdb) x/s 0x804b770
@@ -849,7 +850,7 @@ location in memory. This location `0x8049d09` stores a string.
 0x8049d09:      "austinpowers"
 ```
 
-You must have figured out that the integer is not necessary for any comparision
+You must have figured out that the integer is not necessary for any comparison
 in this function itself but is required so that `sscanf` reads the desired
 number of arguments, in order to proceed through the true branch. Also it is
 a remnant of the input to `phase_4`. When the string check passes you are
@@ -877,7 +878,7 @@ Dump of assembler code for function secret_phase:
    0x08048ef6 <+14>:    push   0xa
    0x08048ef8 <+16>:    push   0x0
    0x08048efa <+18>:    push   eax
-   ; convert the string to an long integer with base of ten
+   ; convert the string to a long integer with base of ten
    0x08048efb <+19>:    call   0x80487f0 <__strtol_internal@plt>
    0x08048f00 <+24>:    add    esp,0x10
    0x08048f03 <+27>:    mov    ebx,eax
@@ -956,8 +957,8 @@ Dump of assembler code for function fun7:
 End of assembler dump.
 ```
 
-`secret_phase` passes the integer it reads from input strings as the second
-argument and a memory location as the first argument. On i386 the call stack
+`secret_phase` passes the integer it reads from input strings, as the second
+argument, and a memory location as the first argument. On i386 the call stack
 layout is illustrated below.
 
 ```console
@@ -1013,16 +1014,17 @@ layout is illustrated below.
                                        v
 ```
 
-`fun7` checks if the the first argument located at `ebp + 8`, a memory location
-is zero or not and returns negative one (-1) if it is. The second argument that
-is the integer provided as input, that is located at `ebp + 12` is compared
-against the word (32-bit value) stored at the memory location that was passed as
-the first argument. If both values are equal the function returns zero. If the
-integer is lesser than the value in memory, the same function `fun7` is called
-recursively with the address that is at an offset of four bytes from the memory
-location pointed to by `ebp + 8`. But if the integer is greater than the value
-in memory, `fun7` is called recursively with the address that is at an offset of
-eight bytes from the memory location that was passed as the first argument.
+`fun7` checks if the first argument located at `ebp + 8`, which is a memory
+location, is zero and returns negative one (-1); otherwise it proceeds. The
+second argument that is the integer provided as input, that is located at `ebp
++ 12` is compared against the word (32-bit value) stored at the memory location
+that was passed as the first argument. If both values are equal the function
+returns zero. If the integer is lesser than the value in memory, the same
+function `fun7` is called recursively with the address that is at an offset of
+four bytes from the memory location pointed to by `ebp + 8`. But if the integer
+is greater than the value in memory, `fun7` is called recursively with the
+address that is at an offset of eight bytes from the memory location that was
+passed as the first argument.
 
 ```asm
 
@@ -1037,10 +1039,10 @@ eight bytes from the memory location that was passed as the first argument.
 ```
 
 One might have inferred that this represents recursive traversal of a binary
-search tree, based on the comparision of the input integer against the keys
+search tree, based on the comparison of the input integer against the keys
 stored in the nodes of the tree. The key is the first member of the record
 representing a tree node, the address of the left child is the second member and
-the address of the right child is the third memeber.
+the address of the right child is the third member.
 
 ```c
 struct bst_node {
@@ -1050,9 +1052,9 @@ struct bst_node {
 };
 ```
 
-The base cases of this recursive binary tree processing are zero for equivalence
+The base cases of this binary search tree recursion are zero for equivalence
 with the key of a node and negative one (-1) for the children of a leaf node,
-which are stored as empty addresses. The value returned from each recursive call
+which are stored as null addresses. The value returned from each recursive call
 of `fun7` are doubled for the left child, that is the smaller key and doubled
 then incremented by one for the right child, that is the greater key.
 
@@ -1074,11 +1076,11 @@ if (root == NULL) {
 return ret;
 ```
 
-Now that we have a thorough idea of what `fun7` does, we should analzye what
+Now that we have a thorough idea of what `fun7` does, we should analyze what
 `secret_phase` does with the return value of `fun7`. This value has to be equal
 to seven for the hidden phase to be defused.
 
-Therefore, we need to achieve a result of seven from the recursive traveral of
+Therefore, we need to achieve a result of seven from the recursive traversal of
 a binary search tree with the formulations presented below.
 
 $$
@@ -1093,27 +1095,30 @@ f(\text{root}, \text{n}) &=
 \end{aligned}
 $$
 
-It is fairly intuitive to arrive at a conclustion that the base case of
-recursion that we require is the equivalence of the input integer with a tree
-node key and not the discovery of any child of a leaf node. This is becuase
-a return value of negative one shall continue to remain negative and increases
-in absolute magniture, hence the solution diverges from the value of seven. In
-simpler words we need to start with some integer $a_i$ and use either of
-$a_{i + 1} = 2 \times a_i$ or $a_{i + 1} = 2 \times a_i + 1$. And we should have $a_i$ as zero.
+It is fairly intuitive to reach a conclusion that the base case of recursion
+which we require is the equivalence of the input integer with a tree node key
+and not the discovery of any child of a leaf node. This is because a return
+value of negative one will continue to remain negative and increases in
+absolute magnitude, hence the solution diverges from the value of seven. In
+simpler words we need to start with some integer $a_i = 0$ and use either of
+$a_{i + 1} = 2 \times a_i$ or $a_{i + 1} = 2 \times a_i + 1$.
 
-The left child recursion tree is inconsequential as zero doubled, is zero. The
-right child recursion yeilds one for the penultimate recursive call that is
+The left child recursion tree is inconsequential as zero doubled is zero. The
+right child recursion yields one for the penultimate recursive call that is
 the call with a leaf node. Subsequent antepenultimate calls can either yield
 two or three based on whether the left or right child was recursed into. It is
-evident that two shall not result in a value of seven. Three however does lead
+evident that two will not result in a value of seven. Three, however, does lead
 to seven along a right child recursion path from a parent node. We require four
 recursive calls, all into the right child nodes, starting from the root of the
 tree, and with the ultimate call returning a zero by matching the key of a leaf
 node with the input integer which under our control. This seems very easy. We
 need to validate if this solution is feasible.
 
-The memory location passed to `fun7` in its call from `secret_phase` is indeed the address of the root node of the binary search tree. This addresss is `0x804b320`. Examining the memory locations based on the tree node `struct` define earler, these are the values of the keys,
-traversing along the right child of each node from the parent to a leaf.
+The memory location passed to `fun7` in its call from `secret_phase` is indeed
+the address of the root node of the binary search tree. This address is
+`0x804b320`. Examining the memory locations based on the tree node `struct`
+define earlier, these are the values of the keys, traversing along the right
+child of each node from the parent to a leaf.
 
 ```
 (gdb) x/3wx 0x804b320
@@ -1142,11 +1147,10 @@ three invocations of the rule $a_{i + 1} = 2 \times a_i + 1$ with $a_0 = 0$.
 As the `secret_phase` function requires six input strings to have been read by
 `read_line`, but reads its input from the string passed as input for `phase_4`,
 we need to pass `"9 austinpowers"` as the input to `phase_4`. The remnant string
-shall get read by `secret_phase` and then another string shall be read for the
-input integer. We need to provide this input at the end, after the inputs for
-string should be less than or equal to 1001. But the right-most leaf node has
-its key as 1001 itself. Hence the input to defuse the hidden phase shall be
-1001.
+is read by `secret_phase` and then another string is read for this integer. We
+need to provide this input at the end, after all other strings and it should be
+less than or equal to 1001. But the right-most leaf node has 1001 itself as its
+key. Hence the input to defuse the hidden phase is 1001.
 
 ```
 $ cat >> bomb_codes << end
@@ -1185,13 +1189,13 @@ $
 This assignment is a reverse engineering exercise. The use of `gdb` is
 demonstrated for the disassembly of the machine code and examination of the
 process memory and registers. There are decompilation tools, solvers, theorem
-provers, symoblic execution frameworks and several other reverse engineering
-tools available. The purpose of this exercise however, is to inculcate
-understanding to architecture specific concepts as in calling convenctions,
-memory layouts and high-level language to assembly instructions and the machine
-code transformations.
+provers, symbolic execution frameworks and several other reverse engineering
+tools available. The purpose of this exercise, however, is to inculcate
+understanding to architecture-specific concepts such as in calling conventions,
+memory layouts, and transformation from high-level language to assembly
+instructions and the machine code.
 
-Hope luke warm water does not get cold while one waits for a solver! Modern
+Hope lukewarm water does not get cold while one waits for a solver! Modern
 frameworks are fast and accurate. But one can only foster proficiency with
 rigor over the acquaintance with fundamentals.
 
