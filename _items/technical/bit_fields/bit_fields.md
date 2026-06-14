@@ -17,9 +17,9 @@ canonical_url: "https://notweerdmonk.github.io/technical/bit_fields/"
 Bit-fields represent a sophisticated mechanism in low-level programming that
 allows developers to store and manipulate individual bits within; it is
 a powerful yet nuanced technique which originates from the need to efficiently
-represent and store boolean flags and multiple-bit data structures providing
+represent and store Boolean flags and multiple-bit data structures providing
 a memory-efficient alternative to traditional integer-based storage as they
-pack multiple boolean or integer values together. Bit-fields have been around
+pack multiple Boolean or integer values together. Bit-fields have been around
 the early days of computer science. In the C and C++ programming languages,
 they enable programmers to define custom bit-level representations of data,
 allowing granular control over memory layout and reducing the overall memory
@@ -27,7 +27,7 @@ footprint of data structures.
 
 The concept of bit-fields traces its roots to the constraints of early
 computing systems, where memory was an extremely scarce and expensive resource.
-Programmers needed methods to compress multiple boolean or small-range integer
+Programmers needed methods to compress multiple Boolean or small-range integer
 values into minimal storage. Languages like C formalized this approach,
 allowing developers to define structures where individual bits or small bit
 ranges could be explicitly controlled and accessed. There are some intricacies
@@ -45,10 +45,10 @@ struct counter {
 };
 ```
 
-Bitwise and shift operations complement bit-fields by providing powerful
+Bit-wise and shift operations complement bit-fields by providing powerful
 mechanisms for bit manipulation, enabling efficient transformations, masking,
 and logical operations. These operations are useful when working with bit-fields
-and bitmasks.
+and bit-masks.
 
 ```c
 enum counter_bitpos {
@@ -104,10 +104,10 @@ unit that shall be no larger than size of the type used to declare the fields.
 Therefore such a declaration cannot specify more bits than the size of the type
 of the member.
 
-Signedness of the member decides the range of integral values represented by the
+Signed-ness of the member decides the range of integral values represented by the
 bit-field. The sign specifier can be omitted for the `bool` type which is always
 unsigned whereas all other types for a bit-field require `signed` or `unsigned`
-to be specifier. In case of `GCC` there is a default if the signedness of the
+to be specifier. In case of `GCC` there is a default if the signed-ness of the
 bit-field is not specified in the declaration. The bit-field is signed if plain
 `char` is signed, except that the option `-funsigned-bitfields` forces
 `unsigned` as the default.[^2]
@@ -122,7 +122,7 @@ s.opcode    = 0xa;
 s.small     = 0xa;
 ```
 
-Such a declaration specifies two bit-fields occupting 4 bits each. Being
+Such a declaration specifies two bit-fields occupying 4 bits each. Being
 consecutive and of the same type, they are combined into a single byte of type
 `char`. The unsigned field can have values from 0 to 15 while the signed field
 can have values from -8 to 7. Individual fields can be accessed using their
@@ -202,7 +202,7 @@ positioned at a byte boundary in memory, packed or not.
 
 If and when the need arises to write data which spans across multiple bit-fields
 with the intent of leveraging the fact that several fields occupy a single
-storage unit, type-punning can be used along with bitwise operations.
+storage unit, type-punning can be used along with bit-wise operations.
 
 ```c
 struct counter {
@@ -286,7 +286,7 @@ union counter_u counter3 = { .bytes = 0 };
 
 This section is more of an addendum, complementing the absence of multiple
 bit-position shift operations on some processor architectures. Generally such
-limitations are typical of `RISC` devices, microcontrollers and ASICs in
+limitations are typical of `RISC` devices, micro-controllers and ASICs in
 essence. 
 
 The task of optimizing higher-level source code is shouldered by compilers.
@@ -297,7 +297,7 @@ highly customized implementations lose universality. Staring at assembly
 listings and getting familiar with decompilers is worthwhile unless you can
 employ specific analysis tools.
 
-Scoping this discussion to the `AVR` ISA and `avr-gcc` toolchain we shall
+Scoping this discussion to the `AVR` ISA and `avr-gcc` tool-chain we shall
 enunciate the use of assembly instructions to circumvent compiler limitations.
 Programmers may write separate assembly stubs or inject inline assembly into
 C/C++ source code. The crux of the problem lies in the implementation of a
@@ -340,10 +340,10 @@ leftshift:
 ### Formulating the operation
 
 Before plunging into the nooks of your mind to solve this cranny of a problem
-which has the potential of aggrevating into a cleave, ponder about why the
+which has the potential of aggravating into a cleave, ponder about why the
 compiler cannot do any better! Recall your algorithm analysis lectures if you
 have attended any in graduate school, or flip some book pages and browser some
-webpages when you find the time. Algorithm design provides you with a choice to
+web pages when you find the time. Algorithm design provides you with a choice to
 trade space-complexity for time-complexity and vice versa. Formulation of the bit
 shift operation is presented below.
 
@@ -352,7 +352,7 @@ leftshift(\text{value},\ \text{shift}) = \text{value}\times \left(2^\text{shift}
 $$
 
 The compiler implements the exponentiation of two by a non-negative integer in
-terms of repeated multiply operations. The optimal way to peform a
+terms of repeated multiply operations. The optimal way to perform a
 multiplication of a value by two is to left-shift given value by one bit
 position. Therefore, exponentiation of two, that is, repeated multiplication of
 two by itself, is naturally the repeated left-shifts of one by the given
@@ -365,10 +365,10 @@ value.
 ### Implementing the formulation
 
 This repetition of left-shift operations can be transformed into a lookup of
-tabular values indexed by the exponent value as the base is alwyays fixed to
+tabular values indexed by the exponent value as the base is always fixed to
 two. But the compiler is restrained to forego this kind of optimizations for
-implemention of a generalized operation such as multiple bit shifts because it
-cannot decide the limits of values supplied for such an operaton. This is where
+implementation of a generalized operation such as multiple bit shifts because it
+cannot decide the limits of values supplied for such an operation. This is where
 automata meets its maker, the blob of neurons twitching in your cranial cavity
 ever since you matured from an embryo to an human offspring. As we are aware of
 the possible values of the base as well as the exponent used in the exponential
@@ -385,7 +385,7 @@ table as we can use conditional control flow statements. The choice between
 these approaches and also between the type of conditional statements again
 relies on the behavior of the compiler regarding the generated machine code.
 
-Consider the use case of implementing a data struture to model hardware
+Consider the use case of implementing a data structure to model hardware
 registers of the processing unit. Such a record data structure can be utilized.
 
 ```c
@@ -480,7 +480,7 @@ union register8* register8_set_bit(union register8 *ptr, unsigned char bit) {
 The source code above produces substantially lesser assembly code and
 consequently lesser machine code. As mentioned earlier, refer the Compiler
 Explorer tree[^6] for complete assembly listing. Below is a chunk of the
-assembly code corresponding to the conditional block for zeroeth bit position. 
+assembly code corresponding to the conditional block for zeroth bit position. 
 
 ```asm
 ;    if (bit == 0) {
@@ -627,7 +627,7 @@ union register8* register8_set_bit(union register8 *ptr, unsigned char bit) {
 ```
 
 This concludes our discussion regarding the topic of bit-fields. Bear in
-rememberance that these approaches are presented in specifity towards the `x86`
+remembrance that these approaches are presented in specificity towards the `x86`
 and `AVR` architectures and therefore shall be utilized with understanding.
 
 [^1]: [Wikipedia - Bit field](https://en.wikipedia.org/wiki/Bit_field)
