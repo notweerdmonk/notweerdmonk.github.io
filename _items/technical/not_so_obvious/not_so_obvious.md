@@ -48,11 +48,11 @@ standard output. If we constrain our assumptions of what printing to the
 standard output can imply, we may find some room. Most people run programs on
 a `terminal` through a program called `shell`. A Linux process has by default,
 the file descriptor `0` assigned to the standard input stream, the file
-descritor `1` assigned to the standard output stream and the file descriptor `2`
+descriptor `1` assigned to the standard output stream and the file descriptor `2`
 assigned to the standard error stream. These streams correspond to standard I/O
-streams of the shell process. The `proc` filesystem provides information about
+streams of the shell process. The `proc` file-system provides information about
 a process referenced via a directory named as its `pid`. We can inspect the open
-file descriptors for a process by checking the `fd` subdirectory. The pid string
+file descriptors for a process by checking the `fd` sub-directory. The PID string
 `self` always refers to the current executing process.
 
 ```
