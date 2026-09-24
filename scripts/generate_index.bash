@@ -121,26 +121,113 @@ find "$SRC_DIR" -type f -name '*.md' | sort | while IFS= read -r file; do
 
   # get first non-empty paragraph from body (strip markdown code fences and images)
   excerpt=$(awk '
-    BEGIN { in_fm=0; paragraph=""; started=0 }
-    NR==1 && /^---$/ { in_fm=1; next }
-    in_fm && /^---$/ { in_fm=0; next }
-    in_fm { next }
-    # skip blank lines and headings until a real paragraph starts
-    !started {
-      if ($0 ~ /^[[:space:]]*$/) next
-      if ($0 ~ /^[[:space:]]*#/) next
-      paragraph=$0; started=1; next
+    function is_quote_start(s) {
+      return s ~ /^[[:space:]]*_[*][*]/
     }
+  
+    function is_quote_end(s) {
+      return s ~ /[*][*]_[[:space:]]*$/
+    }
+
+    function is_emphasis_only(s) {
+      sub(/^[[:space:]]+/, "", s)
+      sub(/[[:space:]]+$/, "", s)
+
+      # _quote_
+      if (s ~ /^_[^_].*_$/)
+        return 1
+
+      # *quote*
+      if (s ~ /^\*[^*].*\*$/)
+        return 1
+
+      # **quote**
+      if (s ~ /^\*\*.+\*\*$/)
+        return 1
+
+      return 0
+    }
+
+    BEGIN {
+      in_fm = 0
+      paragraph = ""
+      started = 0
+      skipping_quote = 0
+    }
+
+    NR == 1 && /^---$/ {
+      in_fm = 1
+      next
+    }
+
+    in_fm && /^---$/ {
+      in_fm = 0
+      next
+    }
+
+    in_fm {
+      next
+    }
+
+    # Skip blank lines, headings, and standalone formatted quotes
+    !started {
+      # Skip the remaining lines of a multi-line _**...**_ quote
+      if (skipping_quote) {
+        if (is_quote_end($0))
+          skipping_quote = 0
+        next
+      }
+
+      # Skip blank lines
+      if ($0 ~ /^[[:space:]]*$/)
+        next
+
+      # Skip headings
+      if ($0 ~ /^[[:space:]]*#/)
+        next
+
+      # Skip a multi-line nested emphasis quote beginning with _**
+      if (is_quote_start($0)) {
+        if (!is_quote_end($0))
+          skipping_quote = 1
+        next
+      }
+
+      # Skip single-line emphasis-only text:
+      # _quote_, *quote*, **quote**
+      if ($0 ~ /^[[:space:]]*_[^_].*_[[:space:]]*$/ ||
+          $0 ~ /^[[:space:]]*[*][^*].*[*][[:space:]]*$/ ||
+          $0 ~ /^[[:space:]]*[*][*].+[*][*][[:space:]]*$/)
+        next
+
+      # Skip Markdown horizontal rules: ---, ***, or ___
+      if ($0 ~ /^[[:space:]]*-([[:space:]]*-){2,}[[:space:]]*$/ ||
+          $0 ~ /^[[:space:]]*[*]([[:space:]]*[*]){2,}[[:space:]]*$/ ||
+          $0 ~ /^[[:space:]]*_([[:space:]]*_){2,}[[:space:]]*$/)
+        next
+
+      paragraph = $0
+      started = 1
+      next
+    }
+
+
     started {
       if ($0 ~ /^[[:space:]]*$/ || $0 ~ /\\$/) {
-        print paragraph;
-        paragraph = "";
+        print paragraph
+        paragraph = ""
         exit
       }
+
       paragraph = paragraph " " $0
     }
-    END { if (paragraph != "") print paragraph }
+
+    END {
+      if (paragraph != "")
+        print paragraph
+    }
   ' "$file")
+
   # normalize whitespace
   excerpt=$(
     printf '%s' "$excerpt" \
