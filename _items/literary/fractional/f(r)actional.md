@@ -8,7 +8,7 @@ categories: [prose, literature, contemplation, introspection]
 tags: [prose, literature, contemplation, introspection, fractional progress, incremental effort, productivity paradox, ambition, flash nonfiction]
 author: "notweerdmonk"
 draft: false
-canonical_url: "https://notweerdmonk.github.io/literary/river_life/"
+canonical_url: "https://notweerdmonk.github.io/literary/fractional/"
 ---
 # F(r)actional
 

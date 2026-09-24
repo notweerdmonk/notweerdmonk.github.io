@@ -8,7 +8,7 @@ categories: [prose, literature, memoir, imagery, CNF]
 tags: [prose, literature, memoir, imagery, evocative, reminiscence, reflective, nostalgia, creative nonfiction, CNF]
 author: "notweerdmonk"
 draft: false
-canonical_url: "https://notweerdmonk.github.io/literary/worth/"
+canonical_url: "https://notweerdmonk.github.io/literary/the_orange_autumn/"
 ---
 # The Orange Autumn
 
