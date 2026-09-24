@@ -5,7 +5,7 @@ layout: article
 permalink: /literary/fractional/
 description: ""
 categories: [prose, literature, contemplation, introspection]
-tags: [poetry, literature, contemplation, introspection, fractional progress, incremental effort, productivity paradox, ambition, flash nonfiction]
+tags: [prose, literature, contemplation, introspection, fractional progress, incremental effort, productivity paradox, ambition, flash nonfiction]
 author: "notweerdmonk"
 draft: false
 canonical_url: "https://notweerdmonk.github.io/literary/river_life/"
@@ -20,6 +20,8 @@ accomplish all the goals in a single day.
 
 As days pass, you get closer to completion. One-shot any time, not sooner though.
 
+---
+June 2026
 ---
 
                 ┃                               ┃               ┃       ┃   ┃ ┃┃
