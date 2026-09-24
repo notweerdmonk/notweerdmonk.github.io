@@ -54,3 +54,9 @@ been passing by. Yet its splendor extended across the entire expanse of the dust
 bereft blue canvas, alike a watercolor painting, only alive and morphing.
 
 I yearn to relive this autumn that was orange, alas only in my memories.
+
+---
+December 2011
+---
+
+_**“Wild is the music of autumnal winds amongst faded woods.” — William Wordsworth**_
