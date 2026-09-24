@@ -1,5 +1,5 @@
 ---
-title: "Why the Supernatural Exists"
+title: "Supernatural"
 date: 2026-09-24 00:09:41+00:00
 layout: article
 permalink: /literary/supernatural/
