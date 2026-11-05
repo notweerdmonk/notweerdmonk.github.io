@@ -3,7 +3,7 @@ layout: default
 title: notweeerdmonk
 ---
 | --- | --- | --- |
-| <span id="istream-pitfalls">[Pitfalls in C++ Input Streams](/technical/istream_pitfalls/)</span> | Thu Nov  5 2026 | A post[^1] on a thread in a popular blog that is over twe… |
+| <span id="istream-pitfalls">[Istreams Pitfalls](/technical/istream_pitfalls/)</span> | Thu Nov  5 2026 | A post[^1] on a thread in a popular blog that is over twe… |
 | <span id="supernatural">[Supernatural](/literary/supernatural/)</span> | Thu Sep 24 2026 | Supernatural has existed since the early humans and conti… |
 | <span id="f(r)actional">[F(r)actional](/literary/fractional/)</span> | Mon Jun 15 2026 | If you accomplish at least fifty percent of your goals in… |
 | <span id="youre-the_bomb">[You're the bomb](/write-ups/bomb_lab/)</span> | Sat Jun  6 2026 | Before we plunge into lines of assembly code, here is som… |
