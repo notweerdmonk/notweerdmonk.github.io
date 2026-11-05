@@ -1,5 +1,5 @@
 ---
-title: "Pitfalls in C++ Input Streams"
+title: "Istreams Pitfalls"
 date: 2026-11-05 01:00:00 +00:00
 layout: article
 permalink: /technical/istream_pitfalls/
@@ -10,7 +10,7 @@ author: "notweerdmonk"
 draft: false
 canonical_url: "https://notweerdmonk.github.io/technical/istream_pitfalls/"
 ---
-# Pitfalls in C++ Input Streams
+# Pitfalls in C++ input streams
 
 A post[^1] on a thread in a popular blog that is over twenty-one years old now,
 but pertinent to this day, keeps the memories fresh of the times when learning
