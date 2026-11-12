@@ -3,14 +3,15 @@ layout: default
 title: notweeerdmonk
 ---
 | --- | --- | --- |
-| <span id="istream-pitfalls">[Istreams Pitfalls](/technical/istream_pitfalls/)</span> | Thu Nov  5 2026 | A post[^1] on a thread in a popular blog that is over twe… |
+| <span id="istream-pitfalls">[Istreams Pitfalls](/technical/istream_pitfalls/)</span> | Thu Nov  5 2026 | A post on a thread in a popular blog that is over twe… |
 | <span id="supernatural">[Supernatural](/literary/supernatural/)</span> | Thu Sep 24 2026 | Supernatural has existed since the early humans and conti… |
 | <span id="f(r)actional">[F(r)actional](/literary/fractional/)</span> | Mon Jun 15 2026 | If you accomplish at least fifty percent of your goals in… |
 | <span id="youre-the_bomb">[You're the bomb](/write-ups/bomb_lab/)</span> | Sat Jun  6 2026 | Before we plunge into lines of assembly code, here is som… |
 | <span id="bit-fields">[Bit-fields](/technical/bit_fields/)</span> | Thu Jun  4 2026 | Bit-fields represent a sophisticated mechanism in low-lev… |
 | <span id="worth">[Worth](/literary/worth/)</span> | Wed Feb 18 2026 | For the first light I saw I owe to nine months of her pai… |
 | <span id="river-life">[River Live](/literary/river_life/)</span> | Wed Feb 18 2026 | I, a mere boatman, and I navigate this river… |
-| <span id="bytebanditsctf2020-autobot_01">[Mainly Main](/write-ups/bytebanditsctf2020_autobot_01/)</span> | Mon Apr  7 2025 | This writeup walks through the `autobot` challenge from Byt… |
-| <span id="not-so_obvious">[Not so obvious](/technical/not_so_obvious/)</span> | Thu Feb 13 2025 | The [previous](/technical/tiny_elf/) post about reducing the size of an executabl… |
+| <span id="bytebanditsctf2020-autobot_01">[Mainly Main](/write-ups/bytebanditsctf2020_autobot_01/)</span> | Mon Apr  7 2025 | This writeup walks through the a challenge from ByteBand… |
+| <span id="not-so_obvious">[Not so obvious](/technical/not_so_obvious/)</span> | Thu Feb 13 2025 | The [ post about re… |
 | <span id="tiny-elf">[Tiny Elf](/technical/tiny_elf/)</span> | Wed Feb 12 2025 | Dave Plummer posted on twitter asking out for tips to com… |
 | <span id="the-orange_autumn">[The Orange Autumn](/literary/the_orange_autumn/)</span> | Tue Dec  6 2011 | The cold wind had chilled my nose so much so that I had t… |
+| <span id="paperbag-masquerade">[Paper bag masquerade](/literary/paperbag_masquerade/)</span> | Mon Mar 14 2011 | Trickling tears soak,… |
