@@ -1,3 +1,9 @@
 Gemfile
 Gemfile.lock
+
+.bundle/
+vendor/
+
 _site/
+
+tools/bats/
